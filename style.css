@@ -232,7 +232,10 @@ nav.stuck { background: rgba(6, 8, 10, 0.93); backdrop-filter: blur(18px); borde
 .sk-track { height: 2px; background: rgba(255, 255, 255, 0.06); border-radius: 2px; overflow: hidden; }
 .sk-fill { height: 100%; width: 0; border-radius: 2px; transition: width 1.3s cubic-bezier(0.4, 0, 0.2, 1); background: var(--green); }
 .sk-fill.sf-gold { background: var(--gold); }
-.sk-fill.sf-mix { background: var(--muted); }
+.sk-fill.sf-mix { 
+  background-color: var(--green);
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, var(--gold) 5px, var(--gold) 10px);
+}
 
 .pill-row { display: flex; flex-wrap: wrap; gap: 7.5px; margin-top: 2.5rem; }
 .pill { font-family: var(--mono); font-size: 0.64rem; padding: 5px 12px; border-radius: 20px; letter-spacing: 0.05em; transition: all 0.2s; white-space: nowrap; }
@@ -248,9 +251,9 @@ nav.stuck { background: rgba(6, 8, 10, 0.93); backdrop-filter: blur(18px); borde
 ═══════════════════════════════════════════════════ */
 .proj-switcher { display: flex; gap: 0; margin-bottom: 2.8rem; border: 1px solid var(--border); border-radius: 3px; overflow: hidden; max-width: 420px; }
 .psw-btn { flex: 1; font-family: var(--mono); font-size: 0.72rem; padding: 0.7rem 1.5rem; background: transparent; color: var(--muted); border: none; cursor: none; letter-spacing: 0.07em; text-transform: uppercase; transition: all 0.2s; text-align: center; }
-.psw-btn.on { background: var(--green); color: #000; font-weight: 600; }
-.psw-btn:nth-child(2).on { background: var(--gold); color: #000; }
-.psw-btn:nth-child(3).on { background: var(--green); color: #000; }
+.psw-btn.on { background: var(--gold); color: #000; font-weight: 600; }
+.psw-btn:nth-child(2).on { background: var(--green); color: #000; }
+.psw-btn:nth-child(3).on { background: var(--gold); color: #000; }
 
 .pnl { display: none; }
 .pnl.on { display: block; }
@@ -262,7 +265,7 @@ nav.stuck { background: rgba(6, 8, 10, 0.93); backdrop-filter: blur(18px); borde
 .pprev-bar { height: 2px; }
 .pprev.es .pprev-bar { background: var(--green); }
 .pprev.ipl .pprev-bar { background: var(--gold); }
-.pprev.cb .pprev-bar { background: var(--green); }
+.pprev.cb .pprev-bar { background: var(--gold); }
 .pprev-body { padding: 1.4rem; background: var(--ink3); }
 
 /* mini dashboard constants */
