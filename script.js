@@ -45,7 +45,7 @@ window.addEventListener('scroll', () => {
 });
 
 /* ─── TYPEWRITER ─── */
-const phrases = ['Full Stack Developer.', 'Flask & Node.js Engineer.', 'Web Scraping Specialist.', 'Cricket Data Analyst.', 'B.Tech CSE & AI Student.'];
+const phrases = ['Full Stack Developer.', 'Next.js & React Engineer.', 'Flask & Node.js Developer.', 'Web Scraping Specialist.', 'Cricket Data Analyst.', 'B.Tech CSE & AI Student.'];
 let pi = 0, ci = 0, dl = false; const twEl = document.getElementById('tw');
 function type() {
     if (!twEl) return;
@@ -63,7 +63,7 @@ function cnt(el, t, suf, dur) {
 }
 const counterObs = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting) {
-        cnt(document.getElementById('hs1'), 2, '', 700);
+        cnt(document.getElementById('hs1'), 3, '', 700);
         cnt(document.getElementById('hs2'), 10, '+', 700);
         cnt(document.getElementById('hs3'), 2024, '', 1100);
         counterObs.unobserve(entries[0].target);
