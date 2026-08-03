@@ -63,7 +63,7 @@ function cnt(el, t, suf, dur) {
 }
 const counterObs = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting) {
-        cnt(document.getElementById('hs1'), 3, '', 700);
+        cnt(document.getElementById('hs1'), 4, '', 700);
         cnt(document.getElementById('hs2'), 10, '+', 700);
         cnt(document.getElementById('hs3'), 2024, '', 1100);
         counterObs.unobserve(entries[0].target);

@@ -249,11 +249,12 @@ nav.stuck { background: rgba(6, 8, 10, 0.93); backdrop-filter: blur(18px); borde
 /* ═══════════════════════════════════════════════════
    PROJECTS
 ═══════════════════════════════════════════════════ */
-.proj-switcher { display: flex; gap: 0; margin-bottom: 2.8rem; border: 1px solid var(--border); border-radius: 3px; overflow: hidden; max-width: 420px; }
-.psw-btn { flex: 1; font-family: var(--mono); font-size: 0.72rem; padding: 0.7rem 1.5rem; background: transparent; color: var(--muted); border: none; cursor: none; letter-spacing: 0.07em; text-transform: uppercase; transition: all 0.2s; text-align: center; }
+.proj-switcher { display: flex; gap: 0; margin-bottom: 2.8rem; border: 1px solid var(--border); border-radius: 3px; overflow: hidden; max-width: 580px; }
+.psw-btn { flex: 1; font-family: var(--mono); font-size: 0.72rem; padding: 0.7rem 1.1rem; background: transparent; color: var(--muted); border: none; cursor: none; letter-spacing: 0.07em; text-transform: uppercase; transition: all 0.2s; text-align: center; }
 .psw-btn.on { background: var(--gold); color: #000; font-weight: 600; }
 .psw-btn:nth-child(2).on { background: var(--green); color: #000; }
 .psw-btn:nth-child(3).on { background: var(--gold); color: #000; }
+.psw-btn:nth-child(4).on { background: var(--green); color: #000; }
 
 .pnl { display: none; }
 .pnl.on { display: block; }
@@ -266,6 +267,7 @@ nav.stuck { background: rgba(6, 8, 10, 0.93); backdrop-filter: blur(18px); borde
 .pprev.es .pprev-bar { background: var(--green); }
 .pprev.ipl .pprev-bar { background: var(--gold); }
 .pprev.cb .pprev-bar { background: var(--gold); }
+.pprev.tm .pprev-bar { background: var(--green); }
 .pprev-body { padding: 1.4rem; background: var(--ink3); }
 
 /* mini dashboard constants */
