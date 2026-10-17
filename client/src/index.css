@@ -30,6 +30,7 @@
   --border-color: var(--border);
   --nav-bg: rgba(6, 8, 10, 0.93);
   --btn-icon-border: rgba(255, 255, 255, 0.08);
+  --btn-fill-text: #000000;
 }
 
 [data-theme="light"] {
@@ -37,16 +38,16 @@
   --ink2:    #ffffff;
   --ink3:    #eef5ee;
   --ink4:    #e2ece2;
-  --green:   #00a65a;
-  --green2:  #008f4c;
-  --gold:    #b8860b;
-  --gold2:   #996e00;
+  --green:   #007a42;
+  --green2:  #006837;
+  --gold:    #8a6508;
+  --gold2:   #755506;
   --text:    #0b1a0f;
   --muted:   #4e6353;
-  --faint:   rgba(0, 166, 90, 0.08);
-  --gfaint:  rgba(184, 134, 11, 0.08);
-  --border:  rgba(0, 166, 90, 0.16);
-  --gborder: rgba(184, 134, 11, 0.22);
+  --faint:   rgba(0, 122, 66, 0.08);
+  --gfaint:  rgba(138, 101, 8, 0.08);
+  --border:  rgba(0, 122, 66, 0.18);
+  --gborder: rgba(138, 101, 8, 0.22);
   --sans:    'Outfit', sans-serif;
   --mono:    'JetBrains Mono', monospace;
 
@@ -61,6 +62,7 @@
   --border-color: var(--border);
   --nav-bg: rgba(246, 250, 246, 0.93);
   --btn-icon-border: rgba(0, 0, 0, 0.12);
+  --btn-fill-text: #ffffff;
 }
 
 *, *::before, *::after {
@@ -334,7 +336,7 @@ button {
 .btn-fill-g {
   padding: 0.72rem 1.6rem;
   background: var(--green);
-  color: #000;
+  color: var(--btn-fill-text, #000);
   font-weight: 600;
 }
 
@@ -348,7 +350,7 @@ button {
 .btn-fill-gold {
   padding: 0.72rem 1.6rem;
   background: var(--gold);
-  color: #000;
+  color: var(--btn-fill-text, #000);
   font-weight: 600;
 }
 
@@ -381,9 +383,36 @@ button {
 
 .btn-line-gold:hover {
   background: var(--gold);
-  color: #000;
+  color: var(--btn-fill-text, #000);
   transform: translateY(-2px);
   box-shadow: 0 8px 28px rgba(245, 197, 24, 0.25);
+}
+
+[data-theme="light"] .btn-fill-g,
+[data-theme="light"] .btn-fill-gold {
+  color: #ffffff;
+}
+
+[data-theme="light"] .btn-fill-g:hover {
+  background: var(--green2);
+  color: #ffffff;
+  box-shadow: 0 8px 28px rgba(0, 122, 66, 0.25);
+}
+
+[data-theme="light"] .btn-fill-gold:hover {
+  background: var(--gold2);
+  color: #ffffff;
+  box-shadow: 0 8px 28px rgba(138, 101, 8, 0.25);
+}
+
+[data-theme="light"] .nav-hire:hover {
+  background: var(--gold);
+  color: #ffffff;
+}
+
+[data-theme="light"] .btn-line-gold:hover {
+  background: var(--gold);
+  color: #ffffff;
 }
 
 .btn-icon {
