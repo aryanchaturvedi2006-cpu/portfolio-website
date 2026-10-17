@@ -132,9 +132,9 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="section">
+    <section id="contact" aria-labelledby="contact-title" className="section">
       <div className="wrap">
-        <SectionTitle title="Let's" accentWord="Connect" subtitle="Get In Touch" />
+        <SectionTitle id="contact-title" title="Let's" accentWord="Connect" subtitle="Get In Touch" />
 
         <div
           style={{

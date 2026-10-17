@@ -5,7 +5,8 @@ const CustomCursor = () => {
   const ringRef = useRef(null);
 
   useEffect(() => {
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
       return;
     }
 

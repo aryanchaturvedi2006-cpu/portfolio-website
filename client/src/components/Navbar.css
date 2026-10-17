@@ -68,12 +68,31 @@ nav.nav-bar {
   transition: width 0.25s ease;
 }
 
-.nav-link-btn:hover {
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform-origin: 0% 50%;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.nav-link-btn:hover,
+.nav-link-btn.active {
   color: var(--text);
 }
 
-.nav-link-btn:hover::after {
+.nav-link-btn:hover::after,
+.nav-link-btn.active::after {
   width: 100%;
+}
+
+.mob-link-btn:hover,
+.mob-link-btn.active {
+  color: var(--green);
 }
 
 .nav-right-actions {
@@ -211,3 +230,40 @@ nav.nav-bar {
     padding: 0.9rem 1.4rem;
   }
 }
+
+/* ═══════ BACK TO TOP BUTTON ═══════ */
+.btn-back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink2);
+  border: 1px solid var(--border);
+  color: var(--green);
+  border-radius: 2px;
+  cursor: pointer;
+  z-index: 450;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.btn-back-to-top:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 197, 24, 0.15);
+}
+
+@media (max-width: 680px) {
+  .btn-back-to-top {
+    bottom: 1.2rem;
+    right: 1.2rem;
+    width: 38px;
+    height: 38px;
+  }
+}
+

@@ -4,6 +4,9 @@ const ParticleBackground = () => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
     const cv = canvasRef.current;
     if (!cv) return;
     const ctx = cv.getContext('2d');

@@ -476,3 +476,78 @@ input:focus, textarea:focus, select:focus {
     box-shadow: 0 0 0 6px rgba(0, 230, 118, 0);
   }
 }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ═══════ ACCESSIBILITY: FOCUS-VISIBLE OUTLINES ═══════ */
+:focus-visible {
+  outline: 2px solid var(--green) !important;
+  outline-offset: 2px !important;
+}
+
+/* ═══════ ACCESSIBILITY: SKIP LINK ═══════ */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 1rem;
+  z-index: 99999;
+  padding: 0.6rem 1.2rem;
+  background: var(--ink);
+  color: var(--green);
+  border: 1px solid var(--green);
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ═══════ PREFERS REDUCED MOTION ═══════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  #c-dot, #c-ring {
+    display: none !important;
+  }
+
+  #pcanvas {
+    display: none !important;
+  }
+
+  .card:hover {
+    transform: none !important;
+  }
+
+  .card:hover .project-preview-img {
+    transform: none !important;
+  }
+
+  .btn:hover,
+  .btn-fill-g:hover,
+  .btn-fill-gold:hover,
+  .btn-line-gold:hover,
+  .btn-icon:hover,
+  .btn-icon-gold:hover,
+  .btn-back-to-top:hover {
+    transform: none !important;
+  }
+}
+

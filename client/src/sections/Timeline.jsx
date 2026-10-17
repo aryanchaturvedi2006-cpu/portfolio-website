@@ -22,9 +22,10 @@ const Timeline = () => {
   });
 
   return (
-    <section id="timeline" className="section">
+    <section id="timeline" aria-labelledby="timeline-title" className="section">
       <div className="wrap">
         <SectionTitle
+          id="timeline-title"
           title="Experience &"
           accentWord="Education"
           subtitle="Journey"

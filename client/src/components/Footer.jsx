@@ -7,6 +7,7 @@ const Footer = () => {
 
   return (
     <footer
+      aria-label="Site Footer"
       style={{
         padding: '1.8rem 3.5rem',
         borderTop: '1px solid var(--border)',
@@ -43,6 +44,7 @@ const Footer = () => {
       <button
         type="button"
         onClick={scrollToTop}
+        aria-label="Back to top"
         style={{
           fontFamily: 'var(--mono)',
           fontSize: '0.65rem',
