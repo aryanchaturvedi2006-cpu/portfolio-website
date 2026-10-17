@@ -100,7 +100,7 @@ const Navbar = () => {
         </ul>
         <a
           href="mailto:aryanchaturvedi2006@gmail.com"
-          className="btn btn-fill-g"
+          className="btn btn-line-gold"
           style={{ justifyContent: 'center' }}
         >
           Hire Me

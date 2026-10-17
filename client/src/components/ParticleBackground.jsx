@@ -23,7 +23,7 @@ const ParticleBackground = () => {
       vx: (Math.random() - 0.5) * 0.25,
       vy: (Math.random() - 0.5) * 0.25,
       r: Math.random() * 1.2 + 0.4,
-      col: Math.random() > 0.4 ? 'rgba(0,230,118,' : 'rgba(245,197,24,',
+      col: Math.random() > 0.5 ? 'rgba(0,230,118,' : 'rgba(245,197,24,',
       a: Math.random() * 0.35 + 0.08
     }));
 

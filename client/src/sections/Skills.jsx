@@ -3,8 +3,12 @@ import { motion } from 'framer-motion';
 import SectionTitle from '../components/SectionTitle';
 import { portfolioData } from '../data/portfolioData';
 
-const SkillItem = ({ skill, index }) => {
+const SkillItem = ({ skill, index, accentColor = 'var(--green)' }) => {
   const [isActive, setIsActive] = useState(false);
+  const isGold = accentColor.includes('gold');
+  const glowShadow = isGold
+    ? '0 0 10px rgba(245, 197, 24, 0.7)'
+    : '0 0 10px rgba(0, 230, 118, 0.7)';
 
   return (
     <div
@@ -61,7 +65,7 @@ const SkillItem = ({ skill, index }) => {
           position: 'relative',
           height: '3px',
           backgroundColor: 'var(--ink4)',
-          border: '1px solid var(--border)',
+          border: `1px solid ${isGold ? 'var(--gborder)' : 'var(--border)'}`,
           borderRadius: '2px',
           overflow: 'visible'
         }}
@@ -69,9 +73,9 @@ const SkillItem = ({ skill, index }) => {
         <motion.div
           style={{
             height: '100%',
-            backgroundColor: 'var(--green)',
+            backgroundColor: accentColor,
             borderRadius: '2px',
-            boxShadow: isActive ? '0 0 10px rgba(0, 230, 118, 0.7)' : 'none',
+            boxShadow: isActive ? glowShadow : 'none',
             transition: 'box-shadow 0.2s ease'
           }}
           initial={{ width: 0 }}
@@ -81,7 +85,7 @@ const SkillItem = ({ skill, index }) => {
         />
       </div>
 
-      {/* Tooltip on Hover or Tap */}
+      {/* Tooltip on Hover or Tap - Gold Border & Text */}
       {isActive && (
         <div
           style={{
@@ -89,8 +93,8 @@ const SkillItem = ({ skill, index }) => {
             bottom: 'calc(100% + 4px)',
             right: 0,
             backgroundColor: 'var(--ink4)',
-            color: 'var(--text)',
-            border: '1px solid var(--green)',
+            color: 'var(--gold)',
+            border: '1px solid var(--gold)',
             borderRadius: '2px',
             padding: '3px 8px',
             fontFamily: 'var(--mono)',
@@ -113,15 +117,15 @@ const Skills = () => {
   const { skills } = portfolioData;
 
   const categories = [
-    { title: 'Frontend', items: skills.frontend, accent: 'var(--green)' },
-    { title: 'Backend', items: skills.backend, accent: 'var(--gold)' },
-    { title: 'Tools & Technologies', items: skills.tools, accent: 'var(--green)' }
+    { title: 'Frontend', items: skills.frontend, accent: 'var(--green)', cardClass: 'card-green' },
+    { title: 'Backend', items: skills.backend, accent: 'var(--gold)', cardClass: 'card-gold' },
+    { title: 'Tools & Technologies', items: skills.tools, accent: 'var(--green)', cardClass: 'card-green' }
   ];
 
   return (
     <section id="skills" className="section">
       <div className="wrap">
-        <SectionTitle title="Technical" accentWord="Proficiency" subtitle="Skills" />
+        <SectionTitle title="Technical" accentWord="Proficiency" subtitle="Skills" isGold={false} />
 
         <div
           style={{
@@ -134,11 +138,10 @@ const Skills = () => {
           {categories.map((cat, catIdx) => (
             <motion.div
               key={cat.title}
-              className="card"
+              className={`card ${cat.cardClass}`}
               style={{
                 backgroundColor: 'var(--ink2)',
                 padding: '1.8rem 1.6rem 1.2rem',
-                border: '1px solid var(--border)',
                 borderRadius: '2px'
               }}
               initial={{ opacity: 0, y: 24 }}
@@ -176,7 +179,7 @@ const Skills = () => {
               {/* Skills List */}
               <div>
                 {cat.items.map((skill, idx) => (
-                  <SkillItem key={skill.name} skill={skill} index={idx} />
+                  <SkillItem key={skill.name} skill={skill} index={idx} accentColor={cat.accent} />
                 ))}
               </div>
             </motion.div>

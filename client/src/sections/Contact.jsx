@@ -163,9 +163,9 @@ const Contact = () => {
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', marginBottom: '2.5rem' }}>
-              {/* Email Block with Copy Button */}
+              {/* Email Block with Copy Button - Odd / Green */}
               <div
-                className="card"
+                className="card card-green"
                 style={{
                   backgroundColor: 'var(--ink2)',
                   padding: '1.2rem 1.4rem',
@@ -208,7 +208,7 @@ const Contact = () => {
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  className="btn btn-icon"
+                  className="btn btn-icon-gold"
                   style={{
                     padding: '0.45rem 0.8rem',
                     fontSize: '0.65rem'
@@ -217,19 +217,19 @@ const Contact = () => {
                 >
                   {copied ? (
                     <>
-                      <FiCheck size={12} color="var(--green)" /> Copied!
+                      <FiCheck size={12} color="var(--green)" /> <span style={{ color: 'var(--green)' }}>Copied!</span>
                     </>
                   ) : (
                     <>
-                      <FiCopy size={12} /> Copy
+                      <FiCopy size={12} color="var(--gold)" /> <span style={{ color: 'var(--gold)' }}>Copy</span>
                     </>
                   )}
                 </button>
               </div>
 
-              {/* Location Block */}
+              {/* Location Block - Even / Gold */}
               <div
-                className="card"
+                className="card card-gold"
                 style={{
                   backgroundColor: 'var(--ink2)',
                   padding: '1.2rem 1.4rem',

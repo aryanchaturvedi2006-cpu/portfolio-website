@@ -10,7 +10,7 @@ const About = () => {
   return (
     <section id="about" className="section section-alt">
       <div className="wrap">
-        <SectionTitle title="About" accentWord="Me" subtitle="Background" />
+        <SectionTitle title="About" accentWord="Me" subtitle="Background" isGold={true} />
 
         <motion.div
           style={{
@@ -143,11 +143,11 @@ const About = () => {
               {about.bio}
             </p>
 
-            {/* Info Chips */}
+            {/* Info Chips - Alternating Green and Gold */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {/* Location Chip */}
+              {/* Location Chip - Odd / Green */}
               <div
-                className="card"
+                className="card card-green"
                 style={{
                   padding: '0.85rem 1.15rem',
                   backgroundColor: 'var(--ink3)'
@@ -178,9 +178,9 @@ const About = () => {
                 </span>
               </div>
 
-              {/* Status Chip */}
+              {/* Status Chip - Even / Gold */}
               <div
-                className="card"
+                className="card card-gold"
                 style={{
                   padding: '0.85rem 1.15rem',
                   backgroundColor: 'var(--ink3)'
@@ -214,9 +214,9 @@ const About = () => {
                 </span>
               </div>
 
-              {/* Degree Chip */}
+              {/* Degree Chip - Odd / Green */}
               <div
-                className="card"
+                className="card card-green"
                 style={{
                   padding: '0.85rem 1.15rem',
                   backgroundColor: 'var(--ink3)'

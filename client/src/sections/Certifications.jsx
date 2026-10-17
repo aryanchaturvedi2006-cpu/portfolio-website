@@ -7,13 +7,14 @@ import { portfolioData } from '../data/portfolioData';
 const CertCard = ({ cert, index }) => {
   const [imgError, setImgError] = useState(false);
   const isPlaceholder = !cert.link || cert.link.includes('CERT_URL');
+  const isEven = index % 2 === 1;
+  const cardClass = isEven ? 'card-gold' : 'card-green';
 
   return (
     <motion.div
-      className="card"
+      className={`card ${cardClass}`}
       style={{
         backgroundColor: 'var(--ink3)',
-        border: '1px solid var(--border)',
         borderRadius: '2px',
         padding: '1.6rem',
         display: 'flex',
@@ -32,7 +33,7 @@ const CertCard = ({ cert, index }) => {
             width: '100%',
             height: '150px',
             backgroundColor: 'var(--ink4)',
-            border: '1px solid var(--border)',
+            border: `1px solid ${isEven ? 'var(--gborder)' : 'var(--border)'}`,
             borderRadius: '2px',
             overflow: 'hidden',
             position: 'relative',
@@ -64,7 +65,7 @@ const CertCard = ({ cert, index }) => {
                 gap: '8px'
               }}
             >
-              <FiAward size={34} color="var(--green)" />
+              <FiAward size={34} color={isEven ? 'var(--gold)' : 'var(--green)'} />
               <span
                 style={{
                   fontFamily: 'var(--mono)',
@@ -80,7 +81,7 @@ const CertCard = ({ cert, index }) => {
           )}
         </div>
 
-        {/* Date and Issuer Row */}
+        {/* Date and Issuer Row - Issuer Text is Gold */}
         <div
           style={{
             display: 'flex',
@@ -93,7 +94,7 @@ const CertCard = ({ cert, index }) => {
             style={{
               fontFamily: 'var(--mono)',
               fontSize: '0.64rem',
-              color: 'var(--green)',
+              color: 'var(--gold)',
               letterSpacing: '0.06em',
               textTransform: 'uppercase'
             }}
@@ -106,7 +107,7 @@ const CertCard = ({ cert, index }) => {
               fontFamily: 'var(--mono)',
               fontSize: '0.62rem',
               color: 'var(--gold)',
-              backgroundColor: 'rgba(245, 197, 24, 0.06)',
+              backgroundColor: 'var(--gfaint)',
               border: '1px solid var(--gborder)',
               padding: '2px 7px',
               borderRadius: '2px',
@@ -132,13 +133,13 @@ const CertCard = ({ cert, index }) => {
           {cert.title}
         </h3>
 
-        {/* Credential ID */}
+        {/* Credential ID - Gold Text */}
         {cert.credentialId && (
           <div
             style={{
               fontFamily: 'var(--mono)',
               fontSize: '0.66rem',
-              color: 'var(--muted)',
+              color: 'var(--gold)',
               letterSpacing: '0.04em',
               marginBottom: '1.25rem'
             }}
@@ -155,7 +156,7 @@ const CertCard = ({ cert, index }) => {
             href={cert.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-fill-g"
+            className={isEven ? 'btn btn-fill-gold' : 'btn btn-fill-g'}
             style={{ width: '100%', justifyContent: 'center' }}
           >
             <FiExternalLink size={13} /> View Certificate
@@ -191,6 +192,7 @@ const Certifications = () => {
           title="Certifications &"
           accentWord="Credentials"
           subtitle="Achievements"
+          isGold={true}
         />
 
         {/* Certifications Grid */}
@@ -238,47 +240,54 @@ const Certifications = () => {
               gap: '1rem'
             }}
           >
-            {achievements.map((item) => (
-              <div
-                key={item}
-                className="card card-gold"
-                style={{
-                  backgroundColor: 'var(--ink3)',
-                  padding: '1.2rem 1.4rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px'
-                }}
-              >
+            {achievements.map((item, aIdx) => {
+              const isEvenA = aIdx % 2 === 1;
+              const aCardClass = isEvenA ? 'card-gold' : 'card-green';
+              const aBorder = isEvenA ? 'var(--gborder)' : 'var(--border)';
+              const aBg = isEvenA ? 'var(--gfaint)' : 'var(--faint)';
+
+              return (
                 <div
+                  key={item}
+                  className={`card ${aCardClass}`}
                   style={{
-                    width: '34px',
-                    height: '34px',
-                    borderRadius: '2px',
-                    backgroundColor: 'rgba(245, 197, 24, 0.08)',
-                    border: '1px solid var(--gborder)',
+                    backgroundColor: 'var(--ink3)',
+                    padding: '1.2rem 1.4rem',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--gold)',
-                    flexShrink: 0
+                    gap: '12px'
                   }}
-                  aria-hidden="true"
                 >
-                  <FiAward size={16} />
+                  <div
+                    style={{
+                      width: '34px',
+                      height: '34px',
+                      borderRadius: '2px',
+                      backgroundColor: aBg,
+                      border: `1px solid ${aBorder}`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'var(--gold)',
+                      flexShrink: 0
+                    }}
+                    aria-hidden="true"
+                  >
+                    <FiAward size={16} />
+                  </div>
+                  <span
+                    style={{
+                      fontFamily: 'var(--sans)',
+                      fontSize: '0.92rem',
+                      color: 'var(--text)',
+                      fontWeight: 500
+                    }}
+                  >
+                    {item}
+                  </span>
                 </div>
-                <span
-                  style={{
-                    fontFamily: 'var(--sans)',
-                    fontSize: '0.92rem',
-                    color: 'var(--text)',
-                    fontWeight: 500
-                  }}
-                >
-                  {item}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </motion.div>
       </div>

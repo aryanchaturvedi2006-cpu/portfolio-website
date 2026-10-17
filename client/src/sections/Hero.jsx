@@ -109,7 +109,7 @@ const Hero = () => {
 
             <a
               href={`${apiUrl}/api/resume/docx`}
-              className="btn btn-line"
+              className="btn btn-line-gold"
               target="_blank"
               rel="noopener noreferrer"
               download
@@ -145,11 +145,11 @@ const Hero = () => {
               <span className="hstat-lbl">Projects Built</span>
             </div>
             <div>
-              <span className="hstat-num g">10+</span>
+              <span className="hstat-num gold">10+</span>
               <span className="hstat-lbl">Technologies</span>
             </div>
             <div>
-              <span className="hstat-num gold">2024</span>
+              <span className="hstat-num g">2024</span>
               <span className="hstat-lbl">Started Coding</span>
             </div>
           </motion.div>
@@ -163,37 +163,37 @@ const Hero = () => {
           transition={{ duration: 0.65, delay: 0.25 }}
         >
           <div className="hc-tag">// quick.info</div>
-          <div className="hc-row">
+          <div className="hc-row row-green">
             <span className="hc-k">name</span>
             <span className="hc-v">Aryan Chaturvedi</span>
           </div>
           <div className="hc-sep" />
-          <div className="hc-row">
+          <div className="hc-row row-gold">
             <span className="hc-k">university</span>
             <span className="hc-v">JK Lakshmipat University</span>
           </div>
-          <div className="hc-row">
+          <div className="hc-row row-green">
             <span className="hc-k">degree</span>
             <span className="hc-v">B.Tech CSE &amp; AI</span>
           </div>
-          <div className="hc-row">
+          <div className="hc-row row-gold">
             <span className="hc-k">batch</span>
-            <span className="hc-v">2024 – 2028</span>
+            <span className="hc-v gold">2024 – 2028</span>
           </div>
           <div className="hc-sep" />
-          <div className="hc-row">
+          <div className="hc-row row-green">
             <span className="hc-k">location</span>
             <span className="hc-v">Jaipur, Rajasthan</span>
           </div>
-          <div className="hc-row">
+          <div className="hc-row row-gold">
             <span className="hc-k">status</span>
             <span className="hc-v g">● Open to Internships</span>
           </div>
-          <div className="hc-row">
+          <div className="hc-row row-green">
             <span className="hc-k">role</span>
-            <span className="hc-v gold">Boys' Hostel Coordinator</span>
+            <span className="hc-v">Boys' Hostel Coordinator</span>
           </div>
-          <div className="hc-row">
+          <div className="hc-row row-gold">
             <span className="hc-k">role</span>
             <span className="hc-v gold">Discipline Coordinator</span>
           </div>

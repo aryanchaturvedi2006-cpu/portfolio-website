@@ -23,9 +23,9 @@ const Projects = () => {
   return (
     <section id="projects" className="section section-alt">
       <div className="wrap">
-        <SectionTitle title="Projects Built" accentWord="From Scratch" subtitle="Featured Work" />
+        <SectionTitle title="Projects Built" accentWord="From Scratch" subtitle="Featured Work" isGold={true} />
 
-        {/* Filter Buttons */}
+        {/* Filter Buttons - Active Chip Gold Fill with Black Text */}
         <motion.div
           style={{
             display: 'flex',
@@ -54,9 +54,9 @@ const Projects = () => {
                   letterSpacing: '0.08em',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
-                  backgroundColor: isActive ? 'var(--green)' : 'var(--ink3)',
+                  backgroundColor: isActive ? 'var(--gold)' : 'var(--ink3)',
                   color: isActive ? '#000000' : 'var(--muted)',
-                  border: `1px solid ${isActive ? 'var(--green)' : 'var(--border)'}`,
+                  border: `1px solid ${isActive ? 'var(--gold)' : 'var(--border)'}`,
                   fontWeight: isActive ? 600 : 500
                 }}
               >
@@ -80,20 +80,21 @@ const Projects = () => {
             {filteredProjects.map((project, idx) => {
               const livePlaceholder = isPlaceholderLink(project.live);
               const githubPlaceholder = isPlaceholderLink(project.github);
+              const isEven = idx % 2 === 1;
+              const cardClass = isEven ? 'card-gold' : 'card-green';
 
               return (
                 <motion.div
                   key={project.id}
                   layout
-                  className="card"
+                  className={`card ${cardClass}`}
                   style={{
                     backgroundColor: 'var(--ink2)',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                     padding: '1.8rem',
-                    borderRadius: '2px',
-                    border: '1px solid var(--border)'
+                    borderRadius: '2px'
                   }}
                   initial={{ opacity: 0, scale: 0.96 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -117,7 +118,7 @@ const Projects = () => {
                         style={{
                           fontFamily: 'var(--mono)',
                           fontSize: '0.62rem',
-                          color: 'var(--muted)',
+                          color: 'var(--gold)',
                           letterSpacing: '0.1em'
                         }}
                       >
@@ -134,7 +135,7 @@ const Projects = () => {
                           border: '1px solid var(--gborder)',
                           padding: '2px 8px',
                           borderRadius: '2px',
-                          backgroundColor: 'rgba(245, 197, 24, 0.05)'
+                          backgroundColor: 'var(--gfaint)'
                         }}
                       >
                         {project.category}
@@ -160,7 +161,7 @@ const Projects = () => {
                       style={{
                         fontFamily: 'var(--mono)',
                         fontSize: '0.72rem',
-                        color: 'var(--green)',
+                        color: isEven ? 'var(--gold)' : 'var(--green)',
                         letterSpacing: '0.04em',
                         marginBottom: '0.9rem'
                       }}
@@ -181,7 +182,7 @@ const Projects = () => {
                       {project.description}
                     </p>
 
-                    {/* Tech Stack Badges */}
+                    {/* Tech Stack Badges - All Gold */}
                     <div
                       style={{
                         display: 'flex',
@@ -196,9 +197,9 @@ const Projects = () => {
                           style={{
                             fontFamily: 'var(--mono)',
                             fontSize: '0.62rem',
-                            color: 'var(--text)',
-                            backgroundColor: 'var(--faint)',
-                            border: '1px solid var(--border)',
+                            color: 'var(--gold)',
+                            backgroundColor: 'var(--gfaint)',
+                            border: '1px solid var(--gborder)',
                             padding: '3px 8px',
                             borderRadius: '2px',
                             letterSpacing: '0.04em'
@@ -218,7 +219,7 @@ const Projects = () => {
                       gap: '0.75rem',
                       alignItems: 'center',
                       paddingTop: '1.25rem',
-                      borderTop: '1px solid var(--border)'
+                      borderTop: `1px solid ${isEven ? 'var(--gborder)' : 'var(--border)'}`
                     }}
                   >
                     {/* Live Demo Button */}
@@ -227,7 +228,7 @@ const Projects = () => {
                         href={project.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn btn-fill-g"
+                        className={isEven ? 'btn btn-fill-gold' : 'btn btn-fill-g'}
                       >
                         <FiExternalLink size={13} /> Live Demo
                       </a>
