@@ -3,7 +3,6 @@ export const REPO_URL_EDUSYNC = "REPO_URL_EDUSYNC";
 export const REPO_URL_IPL = "REPO_URL_IPL";
 export const REPO_URL_TELEMEDICINE = "REPO_URL_TELEMEDICINE";
 export const LIVE_URL_TELEMEDICINE = "LIVE_URL_TELEMEDICINE";
-export const INTERNSHIP_PERIOD = "INTERNSHIP_PERIOD";
 export const CERT_URL_1 = "CERT_URL_1";
 export const CERT_URL_2 = "CERT_URL_2";
 
@@ -90,8 +89,8 @@ export const portfolioData = {
       id: 1,
       type: "experience",
       title: "Backend & AI/ML Intern (PS-1)",
-      org: "BITS Pilani",
-      period: INTERNSHIP_PERIOD,
+      org: "JK Lakshmipat University",
+      period: "May 2026 - Jul 2026",
       description: "Working on a telemedicine platform for rural healthcare: Aarogya AI multi-lingual symptom checker, WebRTC video consultations, role-based dashboards, Emergency SOS and government scheme guidance. Focus on backend and AI/ML development."
     },
     {
@@ -107,8 +106,8 @@ export const portfolioData = {
       type: "experience",
       title: "Boys' Hostel Coordinator",
       org: "JK Lakshmipat University",
-      period: "2025 - Present",
-      description: "Managing hostel administration, student welfare and inter-hostel coordination while building leadership and organizational skills."
+      period: "Sep 2025 - Sep 2026",
+      description: "Managed hostel administration, student welfare and inter-hostel coordination for the entire boys' wing, building leadership and organizational skills."
     },
     {
       id: 4,
@@ -140,7 +139,7 @@ export const portfolioData = {
   ],
   achievements: [
     "Discipline Coordinator, College Hackathon 2026 (JKLU)",
-    "Boys' Hostel Coordinator, JKLU (2025 - Present)"
+    "Boys' Hostel Coordinator, JKLU (Sep 2025 - Sep 2026)"
   ]
 };
 

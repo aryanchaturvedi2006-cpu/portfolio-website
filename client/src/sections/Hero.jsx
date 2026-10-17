@@ -191,7 +191,7 @@ const Hero = () => {
           </div>
           <div className="hc-row row-green">
             <span className="hc-k">role</span>
-            <span className="hc-v">Boys' Hostel Coordinator</span>
+            <span className="hc-v">Former Boys' Hostel Coordinator</span>
           </div>
           <div className="hc-row row-gold">
             <span className="hc-k">role</span>
