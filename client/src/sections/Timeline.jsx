@@ -28,7 +28,7 @@ const Timeline = () => {
           title="Experience &"
           accentWord="Education"
           subtitle="Journey"
-          isGold={true}
+          isGold={false}
         />
 
         <div className="timeline-container" ref={containerRef}>
@@ -45,15 +45,18 @@ const Timeline = () => {
           {/* Timeline Items */}
           {timeline.map((item, index) => {
             const isLeft = index % 2 === 0;
+            const isEvenItem = index % 2 === 1;
+            const dotColor = isEvenItem ? 'gold' : 'green';
+            const cardClass = isEvenItem ? 'card-gold' : 'card-green';
 
             return (
               <div
                 key={item.id}
                 className={`timeline-item ${isLeft ? 'left' : 'right'}`}
               >
-                {/* Node Dot with Icon & Pulsing Green Glow */}
+                {/* Node Dot with Icon - Alternating Green and Gold (Education items are Gold) */}
                 <motion.div
-                  className="timeline-dot"
+                  className={`timeline-dot ${dotColor}`}
                   initial={{ scale: 0, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
                   viewport={{ once: true }}
@@ -61,7 +64,7 @@ const Timeline = () => {
                   aria-hidden="true"
                 >
                   {item.type === 'education' ? (
-                    <FaGraduationCap size={15} />
+                    <FaGraduationCap size={15} color={dotColor === 'gold' ? 'var(--gold)' : 'var(--green)'} />
                   ) : (
                     <FiBriefcase size={15} />
                   )}
@@ -76,10 +79,9 @@ const Timeline = () => {
                   transition={{ duration: 0.55, ease: 'easeOut', delay: 0.12 }}
                 >
                   <div
-                    className="card"
+                    className={`card ${cardClass}`}
                     style={{
                       backgroundColor: 'var(--ink2)',
-                      border: '1px solid var(--border)',
                       borderRadius: '2px',
                       padding: '1.6rem',
                       position: 'relative'
@@ -102,7 +104,7 @@ const Timeline = () => {
                           fontFamily: 'var(--mono)',
                           fontSize: '0.64rem',
                           color: 'var(--gold)',
-                          backgroundColor: 'rgba(245, 197, 24, 0.06)',
+                          backgroundColor: 'var(--gfaint)',
                           border: '1px solid var(--gborder)',
                           padding: '3px 8px',
                           borderRadius: '2px',
@@ -119,7 +121,7 @@ const Timeline = () => {
                         style={{
                           fontFamily: 'var(--mono)',
                           fontSize: '0.64rem',
-                          color: 'var(--green)',
+                          color: isEvenItem ? 'var(--gold)' : 'var(--green)',
                           letterSpacing: '0.06em',
                           textTransform: 'uppercase'
                         }}

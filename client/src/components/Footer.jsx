@@ -37,7 +37,7 @@ const Footer = () => {
         }}
       >
         <span className="g">AC</span>
-        <span className="gold">.</span>
+        <span className="g">.</span>
       </span>
 
       <button
@@ -51,7 +51,7 @@ const Footer = () => {
           transition: 'color 0.2s',
           cursor: 'pointer'
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--green)')}
+        onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--gold)')}
         onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--muted)')}
       >
         back to top &uarr;

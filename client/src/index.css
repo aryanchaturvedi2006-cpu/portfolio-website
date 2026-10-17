@@ -13,6 +13,7 @@
   --text:    #dce8dc;
   --muted:   #566356;
   --faint:   rgba(0, 230, 118, 0.07);
+  --gfaint:  rgba(245, 197, 24, 0.07);
   --border:  rgba(0, 230, 118, 0.09);
   --gborder: rgba(245, 197, 24, 0.12);
   --sans:    'Outfit', sans-serif;
@@ -36,15 +37,16 @@
   --ink2:    #ffffff;
   --ink3:    #eef5ee;
   --ink4:    #e2ece2;
-  --green:   #00c853;
-  --green2:  #00a844;
+  --green:   #00a65a;
+  --green2:  #008f4c;
   --gold:    #b8860b;
   --gold2:   #996e00;
   --text:    #0b1a0f;
   --muted:   #4e6353;
-  --faint:   rgba(0, 200, 83, 0.07);
-  --border:  rgba(0, 200, 83, 0.15);
-  --gborder: rgba(184, 134, 11, 0.2);
+  --faint:   rgba(0, 166, 90, 0.08);
+  --gfaint:  rgba(184, 134, 11, 0.08);
+  --border:  rgba(0, 166, 90, 0.16);
+  --gborder: rgba(184, 134, 11, 0.22);
   --sans:    'Outfit', sans-serif;
   --mono:    'JetBrains Mono', monospace;
 
@@ -205,7 +207,7 @@ button {
 .eyebrow {
   font-family: var(--mono);
   font-size: 0.68rem;
-  color: var(--green);
+  color: var(--gold);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   display: flex;
@@ -221,12 +223,20 @@ button {
   background: var(--green);
 }
 
+.eyebrow.green {
+  color: var(--green);
+}
+
+.eyebrow.green::before {
+  background: var(--green);
+}
+
 .eyebrow.gold {
   color: var(--gold);
 }
 
 .eyebrow.gold::before {
-  background: var(--gold);
+  background: var(--green);
 }
 
 .sec-title {
@@ -252,20 +262,56 @@ button {
   border: 1px solid var(--border);
   border-radius: 2px;
   padding: 1.8rem;
-  transition: border-color 0.25s ease, transform 0.25s ease;
+  position: relative;
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gold);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 .card:hover {
-  border-color: rgba(0, 230, 118, 0.22);
+  border-color: rgba(0, 230, 118, 0.28);
   transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 230, 118, 0.08);
 }
 
-.card-gold {
+.card.card-green {
+  border-color: var(--border);
+}
+
+.card.card-green:hover {
+  border-color: rgba(0, 230, 118, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 230, 118, 0.12);
+}
+
+.card.card-green::before {
+  background: var(--green);
+}
+
+.card.card-gold {
   border-color: var(--gborder);
 }
 
-.card-gold:hover {
-  border-color: rgba(245, 197, 24, 0.25);
+.card.card-gold:hover {
+  border-color: rgba(245, 197, 24, 0.35);
+  box-shadow: 0 8px 24px rgba(245, 197, 24, 0.12);
+}
+
+.card.card-gold::before {
+  background: var(--gold);
 }
 
 /* ═══════ BUTTONS ═══════ */
@@ -326,6 +372,20 @@ button {
   transform: translateY(-2px);
 }
 
+.btn-line-gold {
+  padding: 0.72rem 1.6rem;
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+.btn-line-gold:hover {
+  background: var(--gold);
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(245, 197, 24, 0.25);
+}
+
 .btn-icon {
   padding: 0.6rem 1rem;
   background: transparent;
@@ -337,6 +397,26 @@ button {
   border-color: var(--gold);
   color: var(--gold);
   transform: translateY(-2px);
+}
+
+.btn-icon-gold {
+  padding: 0.6rem 1rem;
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gborder);
+}
+
+.btn-icon-gold:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gfaint);
+  transform: translateY(-2px);
+}
+
+/* ═══════ FORM INPUT FOCUS RINGS ═══════ */
+input:focus, textarea:focus, select:focus {
+  border-color: var(--green) !important;
+  box-shadow: 0 0 0 1px var(--green) !important;
 }
 
 /* ═══════ PULSE ANIMATION ═══════ */

@@ -79,13 +79,36 @@
   box-shadow: 0 0 18px rgba(0, 230, 118, 0.4);
 }
 
+.timeline-dot.green {
+  border-color: var(--green);
+  color: var(--green);
+  box-shadow: 0 0 12px rgba(0, 230, 118, 0.2);
+}
+
+.timeline-dot.green::after {
+  border-color: var(--green);
+}
+
+.timeline-dot.gold {
+  border-color: var(--gold);
+  color: var(--gold);
+  box-shadow: 0 0 12px rgba(245, 197, 24, 0.25);
+}
+
+.timeline-dot.gold:hover {
+  box-shadow: 0 0 18px rgba(245, 197, 24, 0.45);
+}
+
+.timeline-dot.gold::after {
+  border-color: var(--gold);
+}
+
 /* Pulse animation on dot */
 .timeline-dot::after {
   content: '';
   position: absolute;
   inset: -4px;
   border-radius: 50%;
-  border: 1px solid var(--green);
   opacity: 0.4;
   animation: pulseDot 2s infinite ease-out;
 }
