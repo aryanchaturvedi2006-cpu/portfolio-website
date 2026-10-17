@@ -1,119 +1,180 @@
-# Aryan Chaturvedi — Personal Portfolio Website
+# Aryan Chaturvedi - Full Stack Developer Portfolio
 
-A modern, responsive, and performance-focused personal portfolio website showcasing full-stack web applications, AI/ML engineering projects, technical skills, leadership experience, and academic background.
+A modern, high-performance portfolio web application built with the MERN stack (MongoDB, Express, React, Node.js) and Vite. Features a flat Emerald, Gold, and Black design system, smooth Framer Motion micro-interactions, responsive mobile-first layouts, and clean RESTful API architecture.
 
-Live Website: [portfolio-website-seven-phi-36.vercel.app](https://portfolio-website-seven-phi-36.vercel.app/)
+## Live Deployment Links
 
----
+- Frontend (Client): [LIVE_FRONTEND_URL](LIVE_FRONTEND_URL)
+- Backend API (Server): [LIVE_BACKEND_URL](LIVE_BACKEND_URL)
 
-## Overview
+## Features
 
-This portfolio serves as an interactive showcase of my software engineering and machine learning projects, leadership responsibilities, and technical skill set. Built from scratch with pure HTML5, vanilla CSS3, and modern JavaScript (ES6+), the site delivers fast load times, zero external heavy runtime dependencies, and seamless responsiveness across devices.
+- Dynamic Hero Section: Interactive typewriter role animation, introduction stats counter, and quick-info sidecard.
+- Theme Management: Dark and light modes with system preference detection and localStorage persistence using CSS variables.
+- Interactive Skills Matrix: Animated horizontal progress indicators with tooltips for desktop hover and mobile tap.
+- Filterable Projects Showcase: Animated category switching (Full Stack, Backend, AI/ML) using Framer Motion layout transitions.
+- Interactive Timeline: Vertical animated drawing line scaling with scroll, alternating milestone cards, and status node badges.
+- Certifications & Credentials: Verified course credentials with external verification links and fallback rendering.
+- Resume Downloads: Direct streaming of PDF and DOCX resume documents served by Express `res.download()`.
+- Contact Integration: Client-validated contact form with honeypot bot trap, submission rate limiting, and MongoDB persistence.
 
----
-
-## Key Features
-
-- **Dynamic Hero Section**: Interactive developer introduction with animated counters tracking projects built, academic progress, and core competencies.
-- **Interactive Project Showcase**:
-  - Tabbed project switcher displaying live dashboard simulations and architecture breakdowns.
-  - Interactive deep-dive accordions highlighting technical design decisions, backend architecture, database modeling, and authentication mechanisms.
-- **Skills Matrix**: Organized categorized breakdown of programming languages, backend frameworks, frontend tools, AI/ML libraries, databases, and DevOps utilities.
-- **Interactive CV / Resume Explorer**: Role-based CV explorer organizing projects, skills, institutional responsibilities, and certifications.
-- **About & Leadership**: Details on university coursework, focus areas, and leadership roles including Boys' Hostel Coordinator and Discipline Coordinator for College Hackathon 2026.
-- **Direct Contact Channel**: Integrated communication endpoints linking directly to GitHub, LinkedIn, and email.
-
----
-
-## Featured Projects
-
-### 01. CafeBuddy — Full-Stack Cafeteria Application
-- **Stack**: Next.js 15, React 19, Tailwind CSS 4, Zustand, Firebase Auth, Google OAuth, Razorpay API, Framer Motion
-- **Highlights**:
-  - High-performance food ordering platform designed for cafeteria environments.
-  - Secure social authentication with NextAuth.js and Firebase Auth.
-  - Integrated digital payment workflows via Razorpay and persistent client-side cart management with Zustand.
-- **Live Demo**: [cafeteria-app-two.vercel.app](https://cafeteria-app-two.vercel.app/)
-
-### 02. EduSync — Full-Stack Student Management System
-- **Stack**: Python, Flask, SQLite3, Google OAuth 2.0, PBKDF2 Hashing, HTML5, CSS3, JavaScript
-- **Highlights**:
-  - Complete academic administrative suite managing student records, attendance, fee tracking, and online quizzes.
-  - Multi-role role-based access control (Admin and Student roles).
-  - Automated GPA computation engine and dynamic threshold-based attendance tracking.
-- **Live Demo**: [edusync-portal.onrender.com](https://edusync-portal.onrender.com)
-
-### 03. IPL Predictor — Data-Driven Analytics App
-- **Stack**: Node.js, Express.js, Axios, Cheerio, JavaScript, JSON
-- **Highlights**:
-  - Match outcome predictor leveraging historical match data, head-to-head records, and player statistics.
-  - Automated backend news scraper fetching live news and updates from official tournament sources.
-  - Multi-page interactive analytics interface connected via custom client-side navigation.
-- **Live Demo**: [ipl-predictor-w6lj.onrender.com](https://ipl-predictor-w6lj.onrender.com)
-
-### 04. Telemedicine Rural Healthcare & Aarogya AI — Internship Project
-- **Stack**: React 19, Node.js, Express.js, Python, Flask, Scikit-Learn, WebRTC, SQLite3, NLP
-- **Highlights**:
-  - **Aarogya AI**: Machine learning disease triage and symptom checker trained on Kaggle datasets with multi-lingual NLP support for 14+ Indian regional languages.
-  - **WebRTC Video Call Room**: Real-time video teleconsultation suite with integrated video assistant support.
-  - **Tri-Role Dashboards**: Dedicated operational portals for Patients (EHR & appointments), Doctors (slot management & digital RX), and Admins (doctor verification & clinic analytics).
-  - **Emergency SOS & Govt Schemes**: One-click emergency triage alert mechanism and integrated Ayushman Bharat (PMJAY) government healthcare guidance.
-
----
-
-## Technical Stack
+## Tech Stack
 
 | Layer | Technologies |
-| :--- | :--- |
-| **Structure & Layout** | Semantic HTML5 |
-| **Styling & Design System** | Vanilla CSS3 (Custom properties, CSS Grid, Flexbox) |
-| **Interactivity & Logic** | Modern JavaScript (ES6+, DOM APIs, IntersectionObserver) |
-| **Deployment & Hosting** | Vercel |
-| **Version Control** | Git, GitHub |
+|---|---|
+| Frontend | React 19, Vite, React Router v7, Framer Motion, Axios, React Icons, React Type Animation |
+| Backend | Node.js, Express.js (ES Modules), Mongoose, Helmet, Express Rate Limit, CORS, Dotenv |
+| Database | MongoDB Atlas |
+| Hosting & Deployment | Vercel (Client SPA), Render (Server Web Service) |
+| Fonts & Design | Google Fonts (Outfit, JetBrains Mono), Pure CSS Design Tokens |
 
----
-
-## Project Structure
+## Repository Structure
 
 ```
 portfolio-website/
-├── index.html        # Main semantic markup and page structure
-├── style.css         # Complete design system, layout, and component styling
-├── script.js         # Interactive switcher tabs, accordions, counters, and scroll reveals
-└── README.md         # Documentation and project overview
+├── client/                     # Vite + React Frontend SPA
+│   ├── public/                 # Static assets (favicons, svgs)
+│   ├── src/
+│   │   ├── components/         # Shared UI (Navbar, Footer, SectionTitle, CustomCursor, ParticleBackground)
+│   │   ├── context/            # ThemeContext (dark/light mode)
+│   │   ├── data/               # portfolioData.js (content & constants)
+│   │   ├── pages/              # Home.jsx and NotFound.jsx (404)
+│   │   ├── sections/           # Hero, About, Skills, Projects, Timeline, Certifications, Contact
+│   │   ├── App.jsx             # Router and Providers root
+│   │   ├── index.css           # Global tokens and design system
+│   │   └── main.jsx            # Application entrypoint
+│   ├── .env.example            # Client environment template
+│   ├── package.json            # Client dependencies and scripts
+│   ├── vercel.json             # Vercel SPA rewrite configuration
+│   └── vite.config.js          # Vite build and development configuration
+├── server/                     # Node.js + Express REST API
+│   ├── config/                 # db.js (Mongoose connection logic)
+│   ├── controllers/            # contactController.js, resumeController.js
+│   ├── files/                  # Resume PDFs and DOCX storage
+│   ├── middleware/             # rateLimiter.js
+│   ├── models/                 # Contact.js (Mongoose schema)
+│   ├── routes/                 # contact.js, resume.js
+│   ├── .env.example            # Server environment template
+│   ├── package.json            # Server dependencies and scripts
+│   └── server.js               # Express application entrypoint
+├── legacy-static/              # Original static site archive (for reference)
+├── .env.example                # Root environment template
+├── .gitignore                  # Git ignore rules
+└── README.md                   # Project documentation
 ```
 
----
+## REST API Endpoints
 
-## Getting Started Locally
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/health` | Health check endpoint returning `{ status: "ok" }` |
+| POST | `/api/contact` | Validates input, checks rate limit (5 req / 15 min), and saves contact to MongoDB |
+| GET | `/api/resume/pdf` | Downloads `Aryan_Chaturvedi_Resume.pdf` via `res.download()` (returns 404 JSON if absent) |
+| GET | `/api/resume/docx` | Downloads `Aryan_Chaturvedi_Resume.docx` via `res.download()` (returns 404 JSON if absent) |
 
-To run this website locally on your machine:
+## Environment Variables
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/aryanchaturvedi2006-cpu/portfolio-website.git
-   ```
+### Client (`client/.env`)
 
-2. **Navigate to the project directory**:
-   ```bash
-   cd portfolio-website
-   ```
+```env
+VITE_API_URL=
+```
 
-3. **Open in browser**:
-   - Simply open `index.html` in any modern web browser, or
-   - Use a local development server (e.g. VS Code Live Server, or `npx serve .`).
+### Server (`server/.env`)
 
----
+```env
+PORT=
+MONGO_URI=
+CLIENT_URL=
+```
 
-## About the Author
+*Note: In production, `CLIENT_URL` can include one or multiple comma-separated URLs (e.g. `https://your-portfolio.vercel.app`). The server automatically trims whitespace, normalizes trailing slashes, and allows local development on `http://localhost:5173`.*
 
-- **Author**: Aryan Chaturvedi
-- **Education**: B.Tech in Computer Science & Engineering with AI, JK Lakshmipat University, Jaipur (2024 – 2028)
-- **GitHub**: [@aryanchaturvedi2006-cpu](https://github.com/aryanchaturvedi2006-cpu)
-- **Email**: [aryanchaturvedi2006@gmail.com](mailto:aryanchaturvedi2006@gmail.com)
+## Local Development Setup
 
----
+### Prerequisites
 
-## License
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+- MongoDB instance (local or MongoDB Atlas connection URI)
 
-This project is open source and available under the [MIT License](LICENSE).
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/aryanchaturvedi2006-cpu/portfolio-website.git
+cd portfolio-website
+```
+
+### 2. Server Setup
+
+```bash
+cd server
+npm install
+copy .env.example .env    # On macOS/Linux: cp .env.example .env
+```
+
+Configure your `.env` values in `server/.env`:
+- Set `PORT=5000`
+- Set `MONGO_URI` to your MongoDB connection string
+- Set `CLIENT_URL=http://localhost:5173`
+
+Start the server:
+
+```bash
+npm run dev
+```
+
+### 3. Client Setup
+
+Open a new terminal session in the project root:
+
+```bash
+cd client
+npm install
+copy .env.example .env    # On macOS/Linux: cp .env.example .env
+```
+
+Configure your `.env` in `client/.env`:
+- Set `VITE_API_URL=http://localhost:5000`
+
+Start the frontend development server:
+
+```bash
+npm run dev
+```
+
+The frontend application will be accessible at `http://localhost:5173`.
+
+## Deployment Guide
+
+### Backend on Render
+
+1. Create a new **Web Service** on Render and link this repository.
+2. Configure settings:
+   - **Root Directory**: `server`
+   - **Environment**: Node
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+3. Add Environment Variables:
+   - `PORT`: `5000` (or leave default assigned by Render)
+   - `MONGO_URI`: Your production MongoDB Atlas connection string
+   - `CLIENT_URL`: `https://your-client-domain.vercel.app`
+4. Deploy the service and verify `/api/health`.
+
+### Frontend on Vercel
+
+1. Import the repository into Vercel as a new project.
+2. Configure project settings:
+   - **Framework Preset**: Vite
+   - **Root Directory**: `client`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+3. Add Environment Variables:
+   - `VITE_API_URL`: Your deployed Render backend URL (e.g. `https://your-api.onrender.com`)
+4. Deploy. Routing will be handled by `client/vercel.json` SPA rewrites.
+
+## Author
+
+Aryan Chaturvedi
+- GitHub: [https://github.com/aryanchaturvedi2006-cpu](https://github.com/aryanchaturvedi2006-cpu)
+- LinkedIn: [https://www.linkedin.com/in/aryan-chaturvedi-401181329/](https://www.linkedin.com/in/aryan-chaturvedi-401181329/)
