@@ -11,6 +11,68 @@ const isPlaceholderLink = (url) => {
   return url.includes('REPO_URL') || url.includes('LIVE_URL');
 };
 
+const ProjectPreviewImage = ({ src, alt, isEven }) => {
+  const [failed, setFailed] = useState(false);
+
+  return (
+    <div
+      className="project-preview-wrap"
+      style={{
+        width: '100%',
+        aspectRatio: '16 / 9',
+        overflow: 'hidden',
+        position: 'relative',
+        backgroundColor: 'var(--ink3)',
+        borderRadius: '2px',
+        border: `1px solid ${isEven ? 'var(--gborder)' : 'var(--border)'}`,
+        marginBottom: '1.25rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
+      {!failed && src ? (
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          onError={() => setFailed(true)}
+          className="project-preview-img"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'top',
+            display: 'block'
+          }}
+        />
+      ) : (
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'var(--ink3)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <span
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: '0.72rem',
+              color: 'var(--muted)',
+              letterSpacing: '0.1em'
+            }}
+          >
+            // preview
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Projects = () => {
   const { projects } = portfolioData;
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -105,6 +167,13 @@ const Projects = () => {
                 >
                   {/* Card Content Top */}
                   <div>
+                    {/* Project Preview Image */}
+                    <ProjectPreviewImage
+                      src={project.image}
+                      alt={`${project.title} Preview`}
+                      isEven={isEven}
+                    />
+
                     {/* Header: Project Index and Category Tag */}
                     <div
                       style={{

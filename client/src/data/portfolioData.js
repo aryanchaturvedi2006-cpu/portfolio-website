@@ -51,7 +51,8 @@ export const portfolioData = {
       tags: ["Next.js", "React", "Tailwind", "Firebase", "Razorpay", "Zustand", "Framer Motion"],
       live: "https://cafeteria-app-two.vercel.app/",
       github: REPO_URL_CAFEBUDDY,
-      category: "Full Stack"
+      category: "Full Stack",
+      image: "/projects/cafebuddy.png"
     },
     {
       id: 2,
@@ -61,7 +62,8 @@ export const portfolioData = {
       tags: ["Python", "Flask", "SQLite", "OAuth 2.0", "JavaScript"],
       live: "https://edusync-portal.onrender.com",
       github: REPO_URL_EDUSYNC,
-      category: "Full Stack"
+      category: "Full Stack",
+      image: "/projects/edusync.png"
     },
     {
       id: 3,
@@ -71,7 +73,8 @@ export const portfolioData = {
       tags: ["Node.js", "Express", "Cheerio", "Axios", "JavaScript"],
       live: "https://ipl-predictor-w6lj.onrender.com",
       github: REPO_URL_IPL,
-      category: "Backend"
+      category: "Backend",
+      image: "/projects/ipl.png"
     },
     {
       id: 4,
@@ -81,7 +84,8 @@ export const portfolioData = {
       tags: ["React", "Node.js", "Express", "Python", "Flask", "Scikit-Learn", "WebRTC", "SQLite"],
       live: LIVE_URL_TELEMEDICINE,
       github: REPO_URL_TELEMEDICINE,
-      category: "AI/ML"
+      category: "AI/ML",
+      image: "/projects/telemedicine.png"
     }
   ],
   timeline: [
