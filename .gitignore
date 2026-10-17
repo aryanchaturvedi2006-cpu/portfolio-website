@@ -1,1 +1,12 @@
 .vercel
+node_modules/
+.env
+.env.*
+!.env.example
+!.env.*.example
+dist/
+*.log
+
+# Explicitly ensure server resume files and env examples are never ignored
+!/server/files/*.pdf
+!/server/files/*.docx
