@@ -311,3 +311,55 @@
     gap: 0.5rem;
   }
 }
+
+/* Desktop Hero Buttons: fit on one row at 1024px and above */
+@media (min-width: 1024px) {
+  #hero {
+    padding: 6.5rem 2.5rem 4rem;
+  }
+  .hero-wrap {
+    grid-template-columns: 1fr 310px;
+    gap: 2.2rem;
+  }
+  .hero-btns {
+    gap: 0.4rem;
+    flex-wrap: nowrap;
+  }
+  .hero-btns .btn {
+    padding: 0.65rem 0.8rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.05em;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  .hero-btns .btn-icon {
+    padding: 0.65rem 0.7rem;
+    font-size: 0.64rem;
+    letter-spacing: 0.04em;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+}
+
+@media (min-width: 1240px) {
+  #hero {
+    padding: 6.5rem 3.5rem 4rem;
+  }
+  .hero-wrap {
+    grid-template-columns: 1fr 340px;
+    gap: 3.5rem;
+  }
+  .hero-btns {
+    gap: 0.45rem;
+  }
+  .hero-btns .btn {
+    padding: 0.68rem 0.95rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+  }
+  .hero-btns .btn-icon {
+    padding: 0.65rem 0.8rem;
+    font-size: 0.65rem;
+  }
+}
+
