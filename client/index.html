@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <script>
+      try {
+        var theme = localStorage.getItem('ac-theme-choice');
+        if (theme === 'light' || theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', theme);
+        }
+      } catch (e) {}
+    </script>
     <title>Aryan Chaturvedi | Full Stack Developer</title>
     <meta name="description" content="Portfolio of Aryan Chaturvedi — Full Stack Developer & ML Enthusiast, B.Tech CSE & AI at JK Lakshmipat University." />
     <meta name="theme-color" content="#06080a" />
