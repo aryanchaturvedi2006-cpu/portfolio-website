@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import { FiMail, FiMapPin, FiCopy, FiCheck, FiSend, FiGithub, FiLinkedin } from 'react-icons/fi';
+import { FiMail, FiMapPin, FiCopy, FiCheck, FiSend, FiGithub, FiLinkedin, FiDownload } from 'react-icons/fi';
 import SectionTitle from '../components/SectionTitle';
 
 const EMAIL_ADDRESS = 'aryanchaturvedi2006@gmail.com';
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -262,6 +263,80 @@ const Contact = () => {
                   >
                     Jaipur, Rajasthan
                   </span>
+                </div>
+              </div>
+
+              {/* Resume Download Block - Odd / Green */}
+              <div
+                className="card card-green"
+                style={{
+                  backgroundColor: 'var(--ink2)',
+                  padding: '1.2rem 1.4rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                  gap: '12px'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <FiDownload size={16} color="var(--green)" />
+                  <div>
+                    <span
+                      style={{
+                        fontFamily: 'var(--mono)',
+                        fontSize: '0.6rem',
+                        color: 'var(--muted)',
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        display: 'block'
+                      }}
+                    >
+                      Resume / CV
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: 'var(--sans)',
+                        fontSize: '0.9rem',
+                        color: 'var(--text)',
+                        fontWeight: 500
+                      }}
+                    >
+                      Download Resume
+                    </span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  <a
+                    href={`${API_URL}/api/resume/pdf`}
+                    className="btn btn-fill-gold"
+                    style={{
+                      padding: '0.45rem 0.8rem',
+                      fontSize: '0.65rem'
+                    }}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download
+                    aria-label="Download Resume PDF"
+                  >
+                    <FiDownload size={12} /> PDF
+                  </a>
+
+                  <a
+                    href={`${API_URL}/api/resume/docx`}
+                    className="btn btn-line-gold"
+                    style={{
+                      padding: '0.45rem 0.8rem',
+                      fontSize: '0.65rem'
+                    }}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download
+                    aria-label="Download Resume DOCX"
+                  >
+                    <FiDownload size={12} /> DOCX
+                  </a>
                 </div>
               </div>
             </div>
