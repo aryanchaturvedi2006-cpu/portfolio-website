@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: LIVE_FRONTEND_URL/sitemap.xml

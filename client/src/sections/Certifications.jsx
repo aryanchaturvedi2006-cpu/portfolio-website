@@ -46,7 +46,8 @@ const CertCard = ({ cert, index }) => {
           {!imgError ? (
             <img
               src={cert.image}
-              alt={cert.title}
+              alt={`${cert.title} Certificate`}
+              loading="lazy"
               onError={() => setImgError(true)}
               style={{
                 width: '100%',
@@ -158,6 +159,7 @@ const CertCard = ({ cert, index }) => {
             rel="noopener noreferrer"
             className={isEven ? 'btn btn-fill-gold' : 'btn btn-fill-g'}
             style={{ width: '100%', justifyContent: 'center' }}
+            aria-label={`View certificate for ${cert.title}`}
           >
             <FiExternalLink size={13} /> View Certificate
           </a>
@@ -173,6 +175,7 @@ const CertCard = ({ cert, index }) => {
               cursor: 'not-allowed',
               pointerEvents: 'none'
             }}
+            aria-label={`${cert.title} certificate link coming soon`}
           >
             Link coming soon
           </button>
@@ -186,9 +189,10 @@ const Certifications = () => {
   const { certifications, achievements } = portfolioData;
 
   return (
-    <section id="certifications" className="section section-alt">
+    <section id="certifications" aria-labelledby="certifications-title" className="section section-alt">
       <div className="wrap">
         <SectionTitle
+          id="certifications-title"
           title="Certifications &"
           accentWord="Credentials"
           subtitle="Achievements"

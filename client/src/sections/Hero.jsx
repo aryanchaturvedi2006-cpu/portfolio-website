@@ -35,7 +35,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero">
+    <section id="hero" aria-labelledby="hero-title">
       <div className="hero-bg-g" aria-hidden="true" />
       <div className="hero-bg-gold" aria-hidden="true" />
 
@@ -56,7 +56,7 @@ const Hero = () => {
           </motion.div>
 
           {/* Name */}
-          <motion.h1 className="hero-name" variants={itemVariants}>
+          <motion.h1 id="hero-title" className="hero-name" variants={itemVariants}>
             <span className="hn-line1">Aryan</span>
             <span className="hn-line2">Chaturvedi.</span>
           </motion.h1>
@@ -103,6 +103,7 @@ const Hero = () => {
               target="_blank"
               rel="noopener noreferrer"
               download
+              aria-label="Download CV (PDF)"
             >
               <FiDownload size={13} /> Download CV (PDF)
             </a>
@@ -113,6 +114,7 @@ const Hero = () => {
               target="_blank"
               rel="noopener noreferrer"
               download
+              aria-label="Download CV (DOCX)"
             >
               <FiDownload size={13} /> Download CV (DOCX)
             </a>

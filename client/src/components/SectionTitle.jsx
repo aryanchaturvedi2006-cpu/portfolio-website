@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SectionTitle = ({ title, subtitle, accentWord, isGold = false }) => {
+const SectionTitle = ({ title, subtitle, accentWord, isGold = false, id }) => {
   return (
     <div style={{ marginBottom: '2.5rem' }}>
       {subtitle && (
@@ -8,7 +8,7 @@ const SectionTitle = ({ title, subtitle, accentWord, isGold = false }) => {
           {subtitle}
         </div>
       )}
-      <h2 className="sec-title">
+      <h2 id={id} className="sec-title">
         {title}
         {accentWord && (
           <>

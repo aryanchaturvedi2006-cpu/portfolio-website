@@ -8,9 +8,9 @@ const About = () => {
   const [imgError, setImgError] = useState(false);
 
   return (
-    <section id="about" className="section section-alt">
+    <section id="about" aria-labelledby="about-title" className="section section-alt">
       <div className="wrap">
-        <SectionTitle title="About" accentWord="Me" subtitle="Background" isGold={true} />
+        <SectionTitle id="about-title" title="About" accentWord="Me" subtitle="Background" isGold={true} />
 
         <motion.div
           style={{
@@ -80,7 +80,8 @@ const About = () => {
               {!imgError ? (
                 <img
                   src={about.photo}
-                  alt="Aryan Chaturvedi"
+                  alt="Aryan Chaturvedi - Full Stack Developer"
+                  loading="lazy"
                   onError={() => setImgError(true)}
                   style={{
                     width: '100%',

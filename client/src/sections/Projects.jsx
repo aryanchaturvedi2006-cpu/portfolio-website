@@ -83,9 +83,9 @@ const Projects = () => {
       : projects.filter((p) => p.category === selectedCategory);
 
   return (
-    <section id="projects" className="section section-alt">
+    <section id="projects" aria-labelledby="projects-title" className="section section-alt">
       <div className="wrap">
-        <SectionTitle title="Projects Built" accentWord="From Scratch" subtitle="Featured Work" isGold={true} />
+        <SectionTitle id="projects-title" title="Projects Built" accentWord="From Scratch" subtitle="Featured Work" isGold={true} />
 
         {/* Filter Buttons - Active Chip Gold Fill with Black Text */}
         <motion.div
@@ -298,6 +298,7 @@ const Projects = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className={isEven ? 'btn btn-fill-gold' : 'btn btn-fill-g'}
+                        aria-label={`View live demo of ${project.title}`}
                       >
                         <FiExternalLink size={13} /> Live Demo
                       </a>
@@ -311,6 +312,7 @@ const Projects = () => {
                           cursor: 'not-allowed',
                           pointerEvents: 'none'
                         }}
+                        aria-label={`${project.title} live demo coming soon`}
                       >
                         Coming soon
                       </button>
@@ -323,6 +325,7 @@ const Projects = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn btn-icon"
+                        aria-label={`View source code for ${project.title} on GitHub`}
                       >
                         <FiGithub size={13} /> GitHub
                       </a>
@@ -336,6 +339,7 @@ const Projects = () => {
                           cursor: 'not-allowed',
                           pointerEvents: 'none'
                         }}
+                        aria-label={`${project.title} repository coming soon`}
                       >
                         <FiGithub size={13} /> Coming soon
                       </button>

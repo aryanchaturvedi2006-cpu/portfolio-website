@@ -123,9 +123,9 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills" className="section">
+    <section id="skills" aria-labelledby="skills-title" className="section">
       <div className="wrap">
-        <SectionTitle title="Technical" accentWord="Proficiency" subtitle="Skills" isGold={false} />
+        <SectionTitle id="skills-title" title="Technical" accentWord="Proficiency" subtitle="Skills" isGold={false} />
 
         <div
           style={{
