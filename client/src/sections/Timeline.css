@@ -1,0 +1,130 @@
+/* ═══════════════════════════════════════════════════
+   TIMELINE SECTION STYLES
+═══════════════════════════════════════════════════ */
+.timeline-container {
+  position: relative;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+/* Vertical track and active animated line */
+.timeline-track {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background-color: var(--border);
+  z-index: 1;
+}
+
+.timeline-line-active {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background-color: var(--green);
+  transform-origin: top;
+  z-index: 2;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 3.5rem;
+  display: flex;
+  width: 100%;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 1rem;
+}
+
+.timeline-item.left {
+  justify-content: flex-start;
+}
+
+.timeline-item.right {
+  justify-content: flex-end;
+}
+
+.timeline-card-wrap {
+  width: calc(50% - 40px);
+}
+
+.timeline-dot {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--ink2);
+  border: 1px solid var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--green);
+  z-index: 5;
+  box-shadow: 0 0 12px rgba(0, 230, 118, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.timeline-dot:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+  box-shadow: 0 0 18px rgba(0, 230, 118, 0.4);
+}
+
+/* Pulse animation on dot */
+.timeline-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid var(--green);
+  opacity: 0.4;
+  animation: pulseDot 2s infinite ease-out;
+}
+
+@keyframes pulseDot {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* Mobile responsive layout */
+@media (max-width: 768px) {
+  .timeline-track,
+  .timeline-line-active {
+    left: 20px;
+    transform: none;
+  }
+
+  .timeline-item {
+    justify-content: flex-start !important;
+    padding-left: 52px;
+  }
+
+  .timeline-card-wrap {
+    width: 100%;
+  }
+
+  .timeline-dot {
+    left: 20px;
+    top: 24px;
+    transform: translate(-50%, -50%);
+  }
+
+  .timeline-dot:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
