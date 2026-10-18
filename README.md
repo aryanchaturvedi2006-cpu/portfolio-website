@@ -67,28 +67,38 @@ portfolio-website/
 
 | Method | Endpoint | Description |
 |---|---|---|
-| GET | `/api/health` | Health check endpoint returning `{ status: "ok" }` |
-| POST | `/api/contact` | Validates input, checks rate limit (5 req / 15 min), and saves contact to MongoDB |
-| GET | `/api/resume/pdf` | Downloads `Aryan_Chaturvedi_Resume.pdf` via `res.download()` (returns 404 JSON if absent) |
-| GET | `/api/resume/docx` | Downloads `Aryan_Chaturvedi_Resume.docx` via `res.download()` (returns 404 JSON if absent) |
+| GET | `/api/health` | Health check returning status, uptime, and MongoDB connection state |
+| POST | `/api/contact` | Validates input (name, email, message min 10 chars), rate-limits (5 req / 15 min), and persists to MongoDB Atlas |
+| GET | `/api/resume/pdf` | Streams `Aryan_Chaturvedi_Resume.pdf` via `res.download()` |
+| GET | `/api/resume/docx` | Streams `Aryan_Chaturvedi_Resume.docx` via `res.download()` |
 
 ## Environment Variables
 
 ### Client (`client/.env`)
 
 ```env
-VITE_API_URL=
+# URL of your backend Express API
+# Local development: leave empty to use Vite proxy, or set to http://localhost:5000
+# Production (Vercel): set to your deployed backend URL
+VITE_API_URL=http://localhost:5000
 ```
 
 ### Server (`server/.env`)
 
 ```env
-PORT=
-MONGO_URI=
-CLIENT_URL=
+# Server listen port
+PORT=5000
+
+# MongoDB Atlas connection string (use MONGODB_URI or legacy MONGO_URI)
+# Replace <db_password> with your actual database user password
+MONGODB_URI=mongodb+srv://portfolioUser:<db_password>@cluster0.tayddhn.mongodb.net/portfolio?retryWrites=true&w=majority
+
+# Allowed Frontend Origins for CORS (comma-separated for multiple origins)
+# In production on Render, set this to your deployed Vercel domain
+CLIENT_URL=http://localhost:5173
 ```
 
-*Note: In production, `CLIENT_URL` can include one or multiple comma-separated URLs (e.g. `https://your-portfolio.vercel.app`). The server automatically trims whitespace, normalizes trailing slashes, and allows local development on `http://localhost:5173`.*
+*Note: In production on Render, `CLIENT_URL` can include one or multiple comma-separated URLs (e.g. `http://localhost:5173,https://your-portfolio.vercel.app`). The server automatically trims whitespace, normalizes trailing slashes, and accepts localhost ports (`5173`, `3000`, `127.0.0.1:5173`) by default.*
 
 ## Local Development Setup
 
@@ -96,16 +106,9 @@ CLIENT_URL=
 
 - Node.js (v18 or higher)
 - npm (v9 or higher)
-- MongoDB instance (local or MongoDB Atlas connection URI)
+- MongoDB Atlas cluster credentials (or local MongoDB instance)
 
-### 1. Clone Repository
-
-```bash
-git clone https://github.com/aryanchaturvedi2006-cpu/portfolio-website.git
-cd portfolio-website
-```
-
-### 2. Server Setup
+### 1. Server Setup
 
 ```bash
 cd server
@@ -113,20 +116,33 @@ npm install
 copy .env.example .env    # On macOS/Linux: cp .env.example .env
 ```
 
-Configure your `.env` values in `server/.env`:
+Configure your `server/.env`:
 - Set `PORT=5000`
-- Set `MONGO_URI` to your MongoDB connection string
+- Set `MONGODB_URI=mongodb+srv://portfolioUser:<your_actual_password>@cluster0.tayddhn.mongodb.net/portfolio?retryWrites=true&w=majority`
 - Set `CLIENT_URL=http://localhost:5173`
 
-Start the server:
+Start the Express backend:
 
 ```bash
 npm run dev
 ```
 
-### 3. Client Setup
+Verify backend health by opening `http://localhost:5000/api/health` in your browser. It will return:
+```json
+{
+  "status": "ok",
+  "uptime": 12,
+  "timestamp": "2026-10-18T16:00:00.000Z",
+  "database": {
+    "connected": true,
+    "state": "connected"
+  }
+}
+```
 
-Open a new terminal session in the project root:
+### 2. Client Setup
+
+Open a separate terminal in the project root:
 
 ```bash
 cd client
@@ -134,10 +150,10 @@ npm install
 copy .env.example .env    # On macOS/Linux: cp .env.example .env
 ```
 
-Configure your `.env` in `client/.env`:
-- Set `VITE_API_URL=http://localhost:5000`
+Configure `client/.env`:
+- Set `VITE_API_URL=http://localhost:5000` (or leave empty to let Vite proxy `/api` requests)
 
-Start the frontend development server:
+Start the Vite development server:
 
 ```bash
 npm run dev
@@ -155,11 +171,11 @@ The frontend application will be accessible at `http://localhost:5173`.
    - **Environment**: Node
    - **Build Command**: `npm install`
    - **Start Command**: `npm start`
-3. Add Environment Variables:
-   - `PORT`: `5000` (or leave default assigned by Render)
-   - `MONGO_URI`: Your production MongoDB Atlas connection string
-   - `CLIENT_URL`: `https://your-client-domain.vercel.app`
-4. Deploy the service and verify `/api/health`.
+3. Add Environment Variables in Render:
+   - `PORT`: `5000` (or Render default)
+   - `MONGODB_URI`: `mongodb+srv://portfolioUser:<your_password>@cluster0.tayddhn.mongodb.net/portfolio?retryWrites=true&w=majority`
+   - `CLIENT_URL`: `https://your-portfolio.vercel.app` (your deployed Vercel frontend URL)
+4. Deploy the service and verify `https://your-backend.onrender.com/api/health`.
 
 ### Frontend on Vercel
 
@@ -169,8 +185,8 @@ The frontend application will be accessible at `http://localhost:5173`.
    - **Root Directory**: `client`
    - **Build Command**: `npm run build`
    - **Output Directory**: `dist`
-3. Add Environment Variables:
-   - `VITE_API_URL`: Your deployed Render backend URL (e.g. `https://your-api.onrender.com`)
+3. Add Environment Variables in Vercel:
+   - `VITE_API_URL`: Your deployed Render backend URL (e.g. `https://your-portfolio-api.onrender.com`)
 4. Deploy. Routing will be handled by `client/vercel.json` SPA rewrites.
 
 ## Author

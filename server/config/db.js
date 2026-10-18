@@ -1,19 +1,56 @@
 import mongoose from 'mongoose';
 
+/**
+ * Sanitizes MongoDB connection URIs to prevent credentials/passwords
+ * from appearing in console logs or error messages.
+ */
+export const sanitizeMongoUri = (uri) => {
+  if (!uri || typeof uri !== 'string') return '';
+  return uri.replace(
+    /(mongodb(?:\+srv)?:\/\/[^:]+:)([^@]+)(@.+)/i,
+    '$1<db_password_hidden>$3'
+  );
+};
+
 const connectDB = async () => {
-  const mongoUri = process.env.MONGO_URI;
+  // Support both MONGODB_URI and legacy MONGO_URI
+  const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI;
 
   if (!mongoUri) {
-    console.error('MongoDB connection error: MONGO_URI environment variable is missing.');
+    console.warn(
+      'MongoDB connection notice: MONGODB_URI (or MONGO_URI) environment variable is not defined.'
+    );
     return;
   }
 
   try {
+    mongoose.set('strictQuery', true);
+
     const conn = await mongoose.connect(mongoUri);
-    console.log(`MongoDB connected: ${conn.connection.host}`);
+    console.log(
+      `MongoDB connected successfully: host=${conn.connection.host}, database=${conn.connection.name}`
+    );
   } catch (error) {
-    console.error(`MongoDB connection error: ${error.message}`);
+    // Sanitize any error output so credentials are never leaked
+    const safeError = (error?.message || '').replace(
+      /(mongodb(?:\+srv)?:\/\/[^:]+:)([^@]+)(@.+)/i,
+      '$1<db_password_hidden>$3'
+    );
+    console.error(`MongoDB connection error: ${safeError}`);
   }
 };
+
+// Monitor runtime connection lifecycle
+mongoose.connection.on('error', (err) => {
+  const safeErr = (err?.message || '').replace(
+    /(mongodb(?:\+srv)?:\/\/[^:]+:)([^@]+)(@.+)/i,
+    '$1<db_password_hidden>$3'
+  );
+  console.error(`MongoDB runtime connection error: ${safeErr}`);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.warn('MongoDB disconnected. Automatic reconnection will be attempted by Mongoose.');
+});
 
 export default connectDB;
