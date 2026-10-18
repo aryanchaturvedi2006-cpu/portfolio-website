@@ -10,7 +10,7 @@ A modern, high-performance portfolio web application built with the MERN stack (
 ## Features
 
 - Dynamic Hero Section: Interactive typewriter role animation, introduction stats counter, and quick-info sidecard.
-- Theme Management: Dark and light modes with system preference detection and localStorage persistence using CSS variables.
+- Multi-Theme System: 5 selectable dark themes (Emerald Gold, Cyber Cyan, Violet Rose, Crimson Gold, Royal Mint) with near-black bases, instant 250ms CSS variable transitions, zero flash pre-paint initialization, WCAG AA compliance (all >= 4.5:1), and localStorage persistence.
 - Interactive Skills Matrix: Animated horizontal progress indicators with tooltips for desktop hover and mobile tap.
 - Filterable Projects Showcase: Animated category switching (Full Stack, Backend, AI/ML) using Framer Motion layout transitions.
 - Interactive Timeline: Vertical animated drawing line scaling with scroll, alternating milestone cards, and status node badges.
@@ -35,8 +35,8 @@ portfolio-website/
 ├── client/                     # Vite + React Frontend SPA
 │   ├── public/                 # Static assets (favicons, svgs)
 │   ├── src/
-│   │   ├── components/         # Shared UI (Navbar, Footer, SectionTitle, CustomCursor, ParticleBackground)
-│   │   ├── context/            # ThemeContext (dark/light mode)
+│   │   ├── components/         # Shared UI (Navbar, Footer, SectionTitle, CustomCursor, ParticleBackground, ThemePicker)
+│   │   ├── context/            # ThemeContext (5 selectable dark themes)
 │   │   ├── data/               # portfolioData.js (content & constants)
 │   │   ├── pages/              # Home.jsx and NotFound.jsx (404)
 │   │   ├── sections/           # Hero, About, Skills, Projects, Timeline, Certifications, Contact

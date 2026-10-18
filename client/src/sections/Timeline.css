@@ -70,19 +70,19 @@
   justify-content: center;
   color: var(--green);
   z-index: 5;
-  box-shadow: 0 0 12px rgba(0, 230, 118, 0.2);
+  box-shadow: 0 0 12px var(--faint);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .timeline-dot:hover {
   transform: translate(-50%, -50%) scale(1.15);
-  box-shadow: 0 0 18px rgba(0, 230, 118, 0.4);
+  box-shadow: 0 0 18px var(--border);
 }
 
 .timeline-dot.green {
   border-color: var(--green);
   color: var(--green);
-  box-shadow: 0 0 12px rgba(0, 230, 118, 0.2);
+  box-shadow: 0 0 12px var(--faint);
 }
 
 .timeline-dot.green::after {
@@ -92,11 +92,11 @@
 .timeline-dot.gold {
   border-color: var(--gold);
   color: var(--gold);
-  box-shadow: 0 0 12px rgba(245, 197, 24, 0.25);
+  box-shadow: 0 0 12px var(--gfaint);
 }
 
 .timeline-dot.gold:hover {
-  box-shadow: 0 0 18px rgba(245, 197, 24, 0.45);
+  box-shadow: 0 0 18px var(--gborder);
 }
 
 .timeline-dot.gold::after {

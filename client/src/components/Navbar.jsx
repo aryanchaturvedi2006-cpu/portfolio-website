@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
-import { useTheme } from '../context/ThemeContext';
-import { FiSun, FiMoon, FiArrowUp } from 'react-icons/fi';
+import { FiArrowUp } from 'react-icons/fi';
+import { ThemePicker, ThemeChipsMobile } from './ThemePicker';
 import './Navbar.css';
 
 const navItems = [
@@ -14,7 +14,6 @@ const navItems = [
 ];
 
 const Navbar = () => {
-  const { theme, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -133,14 +132,7 @@ const Navbar = () => {
             Hire Me
           </a>
 
-          <button
-            type="button"
-            className="theme-toggle-btn"
-            onClick={toggleTheme}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-          >
-            {theme === 'dark' ? <FiSun size={15} /> : <FiMoon size={15} />}
-          </button>
+          <ThemePicker />
 
           <button
             type="button"
@@ -178,6 +170,9 @@ const Navbar = () => {
             );
           })}
         </ul>
+
+        <ThemeChipsMobile />
+
         <a
           href="mailto:aryanchaturvedi2006@gmail.com"
           className="btn btn-line-gold"

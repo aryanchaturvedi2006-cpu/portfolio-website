@@ -436,7 +436,7 @@ const Contact = () => {
                     style={{
                       width: '100%',
                       backgroundColor: 'var(--ink3)',
-                      border: `1px solid ${fieldErrors.name ? '#ef4444' : 'var(--border)'}`,
+                      border: `1px solid ${fieldErrors.name ? 'var(--error)' : 'var(--border)'}`,
                       borderRadius: '2px',
                       padding: '0.75rem 1rem',
                       color: 'var(--text)',
@@ -451,7 +451,7 @@ const Contact = () => {
                       style={{
                         fontFamily: 'var(--mono)',
                         fontSize: '0.64rem',
-                        color: '#ef4444',
+                        color: 'var(--error)',
                         marginTop: '4px',
                         display: 'block'
                       }}
@@ -487,7 +487,7 @@ const Contact = () => {
                     style={{
                       width: '100%',
                       backgroundColor: 'var(--ink3)',
-                      border: `1px solid ${fieldErrors.email ? '#ef4444' : 'var(--border)'}`,
+                      border: `1px solid ${fieldErrors.email ? 'var(--error)' : 'var(--border)'}`,
                       borderRadius: '2px',
                       padding: '0.75rem 1rem',
                       color: 'var(--text)',
@@ -502,7 +502,7 @@ const Contact = () => {
                       style={{
                         fontFamily: 'var(--mono)',
                         fontSize: '0.64rem',
-                        color: '#ef4444',
+                        color: 'var(--error)',
                         marginTop: '4px',
                         display: 'block'
                       }}
@@ -538,7 +538,7 @@ const Contact = () => {
                     style={{
                       width: '100%',
                       backgroundColor: 'var(--ink3)',
-                      border: `1px solid ${fieldErrors.message ? '#ef4444' : 'var(--border)'}`,
+                      border: `1px solid ${fieldErrors.message ? 'var(--error)' : 'var(--border)'}`,
                       borderRadius: '2px',
                       padding: '0.75rem 1rem',
                       color: 'var(--text)',
@@ -555,7 +555,7 @@ const Contact = () => {
                       style={{
                         fontFamily: 'var(--mono)',
                         fontSize: '0.64rem',
-                        color: '#ef4444',
+                        color: 'var(--error)',
                         marginTop: '4px',
                         display: 'block'
                       }}
@@ -572,10 +572,10 @@ const Contact = () => {
                       fontFamily: 'var(--mono)',
                       fontSize: '0.72rem',
                       marginBottom: '1.25rem',
-                      color: statusMessage.type === 'success' ? 'var(--green)' : '#ef4444',
+                      color: statusMessage.type === 'success' ? 'var(--green)' : 'var(--error)',
                       padding: '0.6rem 0.8rem',
                       backgroundColor: 'var(--ink3)',
-                      border: `1px solid ${statusMessage.type === 'success' ? 'var(--green)' : '#ef4444'}`,
+                      border: `1px solid ${statusMessage.type === 'success' ? 'var(--green)' : 'var(--error)'}`,
                       borderRadius: '2px',
                       lineHeight: 1.5
                     }}

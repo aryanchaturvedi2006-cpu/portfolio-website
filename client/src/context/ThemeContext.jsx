@@ -1,39 +1,45 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { THEMES, VALID_THEME_IDS } from '../data/themes';
 
+const STORAGE_KEY = 'ac-theme';
 const ThemeContext = createContext();
-const STORAGE_KEY = 'ac-theme-choice';
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(() => {
+  const [theme, setThemeState] = useState(() => {
     try {
-      const savedTheme = localStorage.getItem(STORAGE_KEY);
-      if (savedTheme === 'light' || savedTheme === 'dark') {
-        return savedTheme;
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved && VALID_THEME_IDS.includes(saved)) {
+        return saved;
       }
     } catch {
       // In case localStorage is blocked or restricted
     }
-    return 'dark';
+    return 'emerald-gold';
   });
+
+  const setTheme = (nextThemeId) => {
+    if (!VALID_THEME_IDS.includes(nextThemeId)) return;
+    setThemeState(nextThemeId);
+    try {
+      localStorage.setItem(STORAGE_KEY, nextThemeId);
+    } catch {
+      // In case localStorage is restricted
+    }
+  };
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    const activeObj = THEMES.find((t) => t.id === theme) || THEMES[0];
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', activeObj.ink);
+    }
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme((prevTheme) => {
-      const nextTheme = prevTheme === 'dark' ? 'light' : 'dark';
-      try {
-        localStorage.setItem(STORAGE_KEY, nextTheme);
-      } catch {
-        // In case localStorage is restricted
-      }
-      return nextTheme;
-    });
-  };
+  const activeTheme = THEMES.find((t) => t.id === theme) || THEMES[0];
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme, themes: THEMES, activeTheme }}>
       {children}
     </ThemeContext.Provider>
   );

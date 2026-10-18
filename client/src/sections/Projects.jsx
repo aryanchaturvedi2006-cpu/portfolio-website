@@ -117,7 +117,7 @@ const Projects = () => {
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                   backgroundColor: isActive ? 'var(--gold)' : 'var(--ink3)',
-                  color: isActive ? 'var(--btn-fill-text, #000000)' : 'var(--muted)',
+                  color: isActive ? 'var(--ink)' : 'var(--muted)',
                   border: `1px solid ${isActive ? 'var(--gold)' : 'var(--border)'}`,
                   fontWeight: isActive ? 600 : 500
                 }}
