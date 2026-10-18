@@ -137,20 +137,42 @@ export const portfolioData = {
   certifications: [
     {
       id: 1,
-      title: "Introduction to Generative AI",
-      issuer: "Google Cloud & Simplilearn (SkillUp)",
-      date: "June 2025",
-      credentialId: "8497142",
-      link: CERT_URL_1,
-      image: "/certs/genai-skillup.jpg"
+      title: "Database Management System Part - 1",
+      issuer: "Infosys Springboard",
+      date: "28 November 2025",
+      proof: {
+        src: '/certs/infosys-dbms.jpg',
+        alt: 'Course Completion Certificate — Database Management System Part - 1, Infosys Springboard, awarded to Aryan Chaturvedi, 28 November 2025',
+        width: 1800,
+        height: 1273
+      }
     },
     {
       id: 2,
+      title: "Introduction to Generative AI",
+      issuer: "Simplilearn SkillUP (Google Cloud course)",
+      date: "21 June 2025",
+      credentialId: "8497142",
+      link: CERT_URL_1,
+      proof: {
+        src: '/certs/genai-skillup.jpg',
+        alt: 'Declaration of Completion — Introduction to Generative AI, Simplilearn SkillUP powered by Google Cloud, awarded to Aryan Chaturvedi, 21 June 2025',
+        width: 1800,
+        height: 1273
+      }
+    },
+    {
+      id: 3,
       title: "What Is Generative AI?",
       issuer: "LinkedIn Learning",
-      date: "April 2025",
+      date: "29 April 2025",
       link: CERT_URL_2,
-      image: "/certs/linkedin-genai.jpg"
+      proof: {
+        src: '/certs/linkedin-genai.jpg',
+        alt: 'Course completion certificate — What Is Generative AI?, LinkedIn Learning, awarded to Aryan Chaturvedi, 29 April 2025',
+        width: 1800,
+        height: 1391
+      }
     }
   ],
   achievements: [

@@ -6,11 +6,13 @@ import Lightbox from '../components/Lightbox';
 import ProofThumbnail from '../components/ProofThumbnail';
 import { portfolioData } from '../data/portfolioData';
 
-const CertCard = ({ cert, index }) => {
-  const [imgError, setImgError] = useState(false);
-  const isPlaceholder = !cert.link || cert.link.includes('CERT_URL');
+const CertCard = ({ cert, index, onOpenProof }) => {
   const isEven = index % 2 === 1;
   const cardClass = isEven ? 'card-gold' : 'card-green';
+  const hasValidLink =
+    Boolean(cert.link) &&
+    !cert.link.includes('CERT_URL') &&
+    (cert.link.startsWith('http://') || cert.link.startsWith('https://'));
 
   return (
     <motion.div
@@ -18,10 +20,10 @@ const CertCard = ({ cert, index }) => {
       style={{
         backgroundColor: 'var(--ink3)',
         borderRadius: '2px',
-        padding: '1.6rem',
+        padding: '1.5rem',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between'
+        gap: '14px'
       }}
       initial={{ opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -29,68 +31,15 @@ const CertCard = ({ cert, index }) => {
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <div>
-        {/* Certificate Image or Fallback Placeholder */}
-        <div
-          style={{
-            width: '100%',
-            height: '150px',
-            backgroundColor: 'var(--ink4)',
-            border: `1px solid ${isEven ? 'var(--gborder)' : 'var(--border)'}`,
-            borderRadius: '2px',
-            overflow: 'hidden',
-            position: 'relative',
-            marginBottom: '1.25rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          {!imgError ? (
-            <img
-              src={cert.image}
-              alt={`${cert.title} Certificate`}
-              loading="lazy"
-              onError={() => setImgError(true)}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                display: 'block'
-              }}
-            />
-          ) : (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px'
-              }}
-            >
-              <FiAward size={34} color={isEven ? 'var(--gold)' : 'var(--green)'} />
-              <span
-                style={{
-                  fontFamily: 'var(--mono)',
-                  fontSize: '0.62rem',
-                  color: 'var(--muted)',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase'
-                }}
-              >
-                // cert.preview
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* Date and Issuer Row - Issuer Text is Gold */}
+        {/* Date and Issuer Row */}
         <div
           style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginBottom: '0.5rem'
+            marginBottom: '0.5rem',
+            flexWrap: 'wrap',
+            gap: '8px'
           }}
         >
           <span
@@ -129,14 +78,14 @@ const CertCard = ({ cert, index }) => {
             fontWeight: 700,
             color: 'var(--text)',
             letterSpacing: '-0.02em',
-            marginBottom: '0.6rem',
+            marginBottom: cert.credentialId ? '0.4rem' : '0.2rem',
             lineHeight: 1.25
           }}
         >
           {cert.title}
         </h3>
 
-        {/* Credential ID - Gold Text */}
+        {/* Credential ID */}
         {cert.credentialId && (
           <div
             style={{
@@ -144,45 +93,44 @@ const CertCard = ({ cert, index }) => {
               fontSize: '0.66rem',
               color: 'var(--gold)',
               letterSpacing: '0.04em',
-              marginBottom: '1.25rem'
+              marginBottom: '0.2rem'
             }}
           >
             Credential ID: {cert.credentialId}
           </div>
         )}
-      </div>
 
-      {/* Button */}
-      <div style={{ marginTop: '1.25rem' }}>
-        {!isPlaceholder ? (
-          <a
-            href={cert.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={isEven ? 'btn btn-fill-gold' : 'btn btn-fill-g'}
-            style={{ width: '100%', justifyContent: 'center' }}
-            aria-label={`View certificate for ${cert.title}`}
-          >
-            <FiExternalLink size={13} /> View Certificate
-          </a>
-        ) : (
-          <button
-            type="button"
-            disabled
-            className="btn btn-line"
-            style={{
-              width: '100%',
-              justifyContent: 'center',
-              opacity: 0.45,
-              cursor: 'not-allowed',
-              pointerEvents: 'none'
-            }}
-            aria-label={`${cert.title} certificate link coming soon`}
-          >
-            Link coming soon
-          </button>
+        {/* Optional Valid External Link (Hidden if placeholder) */}
+        {hasValidLink && (
+          <div style={{ marginTop: '0.75rem' }}>
+            <a
+              href={cert.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={isEven ? 'btn btn-fill-gold' : 'btn btn-fill-g'}
+              style={{
+                width: '100%',
+                justifyContent: 'center',
+                padding: '6px 12px',
+                fontSize: '0.75rem'
+              }}
+              aria-label={`Verify credential for ${cert.title}`}
+            >
+              <FiExternalLink size={12} /> Verify Credential
+            </a>
+          </div>
         )}
       </div>
+
+      {/* Large Proof Stage */}
+      {cert.proof && (
+        <ProofThumbnail
+          proof={cert.proof}
+          role={cert.title}
+          date={cert.date}
+          onOpen={onOpenProof}
+        />
+      )}
     </motion.div>
   );
 };
@@ -191,6 +139,11 @@ const Certifications = () => {
   const { certifications, achievements } = portfolioData;
   const [activeProof, setActiveProof] = useState(null);
   const triggerBtnRef = useRef(null);
+
+  const handleOpenProof = (proofData, role, date, btnEl) => {
+    triggerBtnRef.current = btnEl;
+    setActiveProof({ proof: proofData, role, date });
+  };
 
   return (
     <section id="certifications" aria-labelledby="certifications-title" className="section section-alt">
@@ -209,11 +162,17 @@ const Certifications = () => {
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
             gap: '1.8rem',
+            alignItems: 'start',
             marginBottom: '4rem'
           }}
         >
           {certifications.map((cert, idx) => (
-            <CertCard key={cert.id} cert={cert} index={idx} />
+            <CertCard
+              key={cert.id}
+              cert={cert}
+              index={idx}
+              onOpenProof={handleOpenProof}
+            />
           ))}
         </div>
 
@@ -244,8 +203,9 @@ const Certifications = () => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '1rem'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gap: '1.5rem',
+              alignItems: 'start'
             }}
           >
             {achievements.map((item, aIdx) => {
@@ -264,11 +224,11 @@ const Certifications = () => {
                   className={`card ${aCardClass}`}
                   style={{
                     backgroundColor: 'var(--ink3)',
-                    padding: '1.4rem',
+                    padding: '1.5rem',
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    gap: '12px'
+                    gap: '14px',
+                    borderRadius: '2px'
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
@@ -294,7 +254,7 @@ const Certifications = () => {
                       <span
                         style={{
                           fontFamily: 'var(--sans)',
-                          fontSize: '0.95rem',
+                          fontSize: '0.98rem',
                           color: 'var(--text)',
                           fontWeight: 600,
                           display: 'block',
@@ -318,16 +278,13 @@ const Certifications = () => {
                     </div>
                   </div>
 
-                  {/* Proof Thumbnail Button (Requirement 2) */}
+                  {/* Large Proof Stage Button (Normal flow, no empty gap) */}
                   {proof && (
                     <ProofThumbnail
                       proof={proof}
                       role={title}
                       date={period}
-                      onOpen={(proofData, role, date, btnEl) => {
-                        triggerBtnRef.current = btnEl;
-                        setActiveProof({ proof: proofData, role, date });
-                      }}
+                      onOpen={handleOpenProof}
                     />
                   )}
                 </div>
@@ -337,7 +294,7 @@ const Certifications = () => {
         </motion.div>
       </div>
 
-      {/* Shared Accessible Lightbox for Leadership Proofs */}
+      {/* Shared Accessible Lightbox for Proof Images */}
       <Lightbox
         isOpen={Boolean(activeProof)}
         onClose={() => setActiveProof(null)}
@@ -345,9 +302,11 @@ const Certifications = () => {
         topbarLabel={
           activeProof
             ? `${
-                activeProof.proof.src.includes('hackjklu')
-                  ? 'certificate'
-                  : 'appointment letter'
+                activeProof.proof.src.includes('hostel') ||
+                (activeProof.proof.alt &&
+                  activeProof.proof.alt.toLowerCase().includes('letter'))
+                  ? 'appointment letter'
+                  : 'certificate'
               } // ${activeProof.role}`
             : ''
         }

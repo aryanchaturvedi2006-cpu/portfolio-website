@@ -137,44 +137,61 @@
   letter-spacing: 0.04em;
 }
 
-/* ═══════ LEADERSHIP PROOF THUMBNAIL BUTTON ═══════ */
-.leadership-proof-btn {
-  display: inline-flex;
-  flex-direction: column;
-  cursor: pointer;
-  background: transparent;
-  border: none;
+/* ═══════ PROOF STAGE BUTTON & FRAME (Prompt 11) ═══════ */
+.proof-stage-btn {
+  display: block;
+  width: 100%;
   padding: 0;
+  margin: 16px 0 0 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
   text-align: left;
+  position: relative;
   border-radius: 2px;
-  transition: transform 0.2s ease;
-  margin-top: 0.9rem;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.leadership-proof-btn:hover {
+.proof-stage-btn:hover {
   transform: translateY(-2px);
 }
 
-.leadership-proof-btn:focus-visible {
+.proof-stage-btn:focus-visible {
   outline: 2px solid var(--green) !important;
   outline-offset: 3px;
 }
 
-.leadership-proof-thumb-wrap {
-  width: 160px;
+@media (prefers-reduced-motion: reduce) {
+  .proof-stage-btn {
+    transition: none !important;
+  }
+  .proof-stage-btn:hover {
+    transform: none !important;
+  }
+}
+
+.proof-stage-frame {
+  width: 100%;
+  position: relative;
   border: 1px solid var(--gborder);
   border-radius: 2px;
   overflow: hidden;
-  background: var(--ink3);
-  position: relative;
+  background: var(--ink2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.leadership-proof-btn:hover .leadership-proof-thumb-wrap {
+.proof-stage-btn:hover .proof-stage-frame {
   border-color: var(--gold);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
-.leadership-proof-thumb {
+/* Landscape stage (Certificates) */
+.proof-stage-landscape .proof-stage-frame {
+  height: auto;
+}
+
+.proof-stage-landscape .proof-stage-img {
   width: 100%;
   height: auto;
   display: block;
@@ -182,39 +199,105 @@
   background: var(--ink3);
 }
 
-.leadership-proof-badge {
+/* Portrait stage (Hostel Coordinator Letter) */
+.proof-stage-portrait .proof-stage-frame {
+  height: clamp(380px, 48vw, 560px);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 5px 8px;
-  background: var(--ink4);
-  border-top: 1px solid var(--border);
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  color: var(--gold);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-weight: 500;
-  transition: color 0.2s ease, background-color 0.2s ease;
+  background: var(--ink2);
 }
 
-.leadership-proof-btn:hover .leadership-proof-badge {
-  color: var(--text);
+.proof-stage-portrait .proof-stage-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Floating caption chip overlay at bottom-right */
+.proof-stage-chip {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  background: rgba(6, 8, 10, 0.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--gborder);
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  pointer-events: none;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  z-index: 2;
+}
+
+.proof-stage-btn:hover .proof-stage-chip {
   background: var(--gfaint);
+  color: var(--text);
+  border-color: var(--gold);
+}
+
+/* Hover/focus "Click to enlarge" badge for portrait */
+.proof-enlarge-hint {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: rgba(6, 8, 10, 0.82);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  pointer-events: none;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  z-index: 2;
+}
+
+.proof-stage-btn:hover .proof-enlarge-hint,
+.proof-stage-btn:focus-visible .proof-enlarge-hint {
+  opacity: 1;
+  color: var(--gold);
+  border-color: var(--gborder);
+}
+
+/* Backward compatibility aliases */
+.leadership-proof-btn {
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  text-align: left;
 }
 
 @media (max-width: 680px) {
-  .leadership-proof-btn {
-    width: 100%;
-  }
-
-  .leadership-proof-thumb-wrap {
-    width: 100%;
-    max-width: 100%;
+  .proof-stage-portrait .proof-stage-frame {
+    height: clamp(340px, 85vw, 460px);
   }
 
   .lightbox-backdrop {
     padding: 0.75rem;
   }
 }
+
