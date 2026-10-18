@@ -14,17 +14,23 @@ import './Projects.css';
 
 const filterCategories = ['All', 'Full Stack', 'Backend', 'AI/ML'];
 
-// Natural widths for images to avoid upscaling blurriness (Requirement 6)
-const naturalWidthMap = {
-  1: 634,  // CafeBuddy: 634x387
-  2: 1280, // EduSync: 1280x670
-  3: 1280, // IPL Predictor: 1280x675
-  4: 686   // Telemedicine: 686x385
-};
-
 const isPlaceholderLink = (url) => {
   if (!url) return true;
   return url.includes('REPO_URL') || url.includes('LIVE_URL');
+};
+
+// Extract real hostname or fallback to "${project.title} (screenshot)" (Requirement 1)
+const getBrowserFrameLabel = (project) => {
+  if (!project) return '';
+  if (!isPlaceholderLink(project.live)) {
+    try {
+      const parsed = new URL(project.live);
+      return parsed.hostname;
+    } catch {
+      return project.live.replace(/^https?:\/\//i, '').replace(/\/.*$/, '');
+    }
+  }
+  return `${project.title} (screenshot)`;
 };
 
 const Projects = () => {
@@ -36,11 +42,41 @@ const Projects = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [activeLightbox, setActiveLightbox] = useState(null);
   const [imgFailed, setImgFailed] = useState({});
+  const [imgDimensions, setImgDimensions] = useState({});
 
   const trackRef = useRef(null);
   const slideRefs = useRef([]);
   const lightboxCloseBtnRef = useRef(null);
   const previouslyFocusedRef = useRef(null);
+
+  // Dynamic image dimension handler (Requirement 2: no hardcoded values)
+  const handleImageLoad = (id, e) => {
+    const { naturalWidth, naturalHeight } = e.currentTarget;
+    setImgDimensions((prev) => {
+      if (
+        prev[id]?.naturalWidth === naturalWidth &&
+        prev[id]?.naturalHeight === naturalHeight
+      ) {
+        return prev;
+      }
+      return { ...prev, [id]: { naturalWidth, naturalHeight } };
+    });
+  };
+
+  const handleImageRef = (id, el) => {
+    if (el && el.complete && el.naturalWidth) {
+      const { naturalWidth, naturalHeight } = el;
+      setImgDimensions((prev) => {
+        if (
+          prev[id]?.naturalWidth === naturalWidth &&
+          prev[id]?.naturalHeight === naturalHeight
+        ) {
+          return prev;
+        }
+        return { ...prev, [id]: { naturalWidth, naturalHeight } };
+      });
+    }
+  };
 
   // Mouse drag tracking ref
   const dragRef = useRef({
@@ -456,7 +492,11 @@ const Projects = () => {
             const githubPlaceholder = isPlaceholderLink(project.github);
             const isSecondaryAccent = idx % 2 === 1;
             const isActive = activeIndex === idx;
-            const naturalMaxW = naturalWidthMap[project.id];
+
+            // Dynamic image sizing detection (Requirement 2)
+            const dims = imgDimensions[project.id];
+            const isLoaded = Boolean(dims);
+            const isLarge = isLoaded ? dims.naturalWidth >= 1000 : true;
 
             return (
               <div
@@ -480,8 +520,9 @@ const Projects = () => {
                         <span className="browser-dot dot-2" />
                         <span className="browser-dot dot-3" />
                       </div>
+                      {/* Hostname from live URL or "${title} (screenshot)" (Requirement 1) */}
                       <span className="project-browser-label">
-                        {project.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.app
+                        {getBrowserFrameLabel(project)}
                       </span>
                       <span className="project-browser-action" aria-hidden="true">
                         <FiMaximize2 size={10} /> view
@@ -503,16 +544,35 @@ const Projects = () => {
                     >
                       {!imgFailed[project.id] && project.image ? (
                         <img
+                          ref={(el) => handleImageRef(project.id, el)}
                           src={project.image}
                           alt={`${project.title} Preview`}
                           loading="lazy"
+                          onLoad={(e) => handleImageLoad(project.id, e)}
                           onError={() =>
                             setImgFailed((prev) => ({ ...prev, [project.id]: true }))
                           }
-                          className="project-img"
-                          style={{
-                            maxWidth: naturalMaxW ? `min(100%, ${naturalMaxW}px)` : '100%'
-                          }}
+                          className={`project-img ${
+                            isLoaded && !isLarge ? 'project-img-contain' : 'project-img-cover'
+                          }`}
+                          style={
+                            isLoaded && !isLarge
+                              ? {
+                                  maxWidth: `${dims.naturalWidth}px`,
+                                  width: '100%',
+                                  height: '100%',
+                                  objectFit: 'contain',
+                                  objectPosition: 'top'
+                                }
+                              : {
+                                  width: '100%',
+                                  height: '100%',
+                                  aspectRatio: '16 / 9',
+                                  objectFit: 'cover',
+                                  objectPosition: 'top',
+                                  maxWidth: '100%'
+                                }
+                          }
                         />
                       ) : (
                         <div className="project-preview-fallback">
@@ -616,7 +676,7 @@ const Projects = () => {
         </div>
       </div>
 
-      {/* Accessible Lightbox Modal Dialog */}
+      {/* Accessible Lightbox Modal Dialog (Requirement 3: never upscaled beyond natural size) */}
       {activeLightbox && (
         <div
           className="project-lightbox-backdrop"
@@ -633,10 +693,10 @@ const Projects = () => {
             aria-label={`${activeLightbox.title} Screenshot Preview`}
             className="project-lightbox-window"
           >
-            {/* Lightbox Top Bar */}
+            {/* Lightbox Top Bar with real hostname */}
             <div className="lightbox-topbar">
               <span className="lightbox-title-label">
-                preview // {activeLightbox.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.app
+                preview // {getBrowserFrameLabel(activeLightbox)}
               </span>
               <button
                 ref={lightboxCloseBtnRef}
@@ -653,9 +713,22 @@ const Projects = () => {
             <div className="lightbox-img-area">
               {!imgFailed[activeLightbox.id] && activeLightbox.image ? (
                 <img
+                  ref={(el) => handleImageRef(activeLightbox.id, el)}
                   src={activeLightbox.image}
                   alt={`${activeLightbox.title} Full View`}
+                  onLoad={(e) => handleImageLoad(activeLightbox.id, e)}
                   className="lightbox-img"
+                  style={{
+                    maxWidth: imgDimensions[activeLightbox.id]?.naturalWidth
+                      ? `min(100%, ${imgDimensions[activeLightbox.id].naturalWidth}px)`
+                      : '100%',
+                    maxHeight: imgDimensions[activeLightbox.id]?.naturalHeight
+                      ? `min(65vh, ${imgDimensions[activeLightbox.id].naturalHeight}px)`
+                      : '65vh',
+                    width: 'auto',
+                    height: 'auto',
+                    objectFit: 'contain'
+                  }}
                 />
               ) : (
                 <div className="project-preview-fallback">
