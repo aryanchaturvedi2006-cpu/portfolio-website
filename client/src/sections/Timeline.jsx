@@ -190,9 +190,11 @@ const Timeline = () => {
         topbarLabel={
           activeProof
             ? `${
-                activeProof.proof.src.includes('hackjklu')
-                  ? 'certificate'
-                  : 'appointment letter'
+                activeProof.proof.src.includes('hostel') ||
+                (activeProof.proof.alt &&
+                  activeProof.proof.alt.toLowerCase().includes('letter'))
+                  ? 'appointment letter'
+                  : 'certificate'
               } // ${activeProof.role}`
             : ''
         }

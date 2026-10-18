@@ -1,5 +1,5 @@
-import React from 'react';
-import { FiFileText } from 'react-icons/fi';
+import React, { useState } from 'react';
+import { FiMaximize2 } from 'react-icons/fi';
 import './Lightbox.css';
 
 const ProofThumbnail = ({
@@ -9,18 +9,20 @@ const ProofThumbnail = ({
   onOpen,
   className = ''
 }) => {
-  if (!proof?.src) return null;
+  const [hasError, setHasError] = useState(false);
 
-  const isCertificate =
-    proof.src.includes('hackjklu') || proof.src.includes('certificate');
-  const label = isCertificate ? 'View certificate' : 'View letter';
-  const ariaLabel = isCertificate
-    ? 'View HackJKLU certificate'
-    : "View Boys' Hostel Coordinator appointment letter";
+  // If proof is missing or fails to load, gracefully hide without broken image icon
+  if (!proof?.src || hasError) return null;
 
-  // Explicit width & height to avoid layout shift (Requirement 2)
-  const thumbWidth = 160;
-  const thumbHeight = Math.round(thumbWidth * (proof.height / proof.width));
+  const isPortrait = proof.height && proof.width ? proof.height > proof.width : false;
+  const isLetter =
+    proof.src.includes('hostel') ||
+    proof.src.includes('letter') ||
+    (proof.alt && proof.alt.toLowerCase().includes('letter')) ||
+    isPortrait;
+
+  const badgeText = isLetter ? 'View Letter' : 'View Certificate';
+  const accessibleName = `View ${role || (isLetter ? 'appointment letter' : 'certificate')}, enlarge`;
 
   return (
     <button
@@ -28,22 +30,40 @@ const ProofThumbnail = ({
       onClick={(e) => {
         onOpen(proof, role, date, e.currentTarget);
       }}
-      aria-label={ariaLabel}
-      className={`leadership-proof-btn ${className}`}
+      aria-label={accessibleName}
+      className={`proof-stage-btn ${isPortrait ? 'proof-stage-portrait' : 'proof-stage-landscape'} ${className}`}
     >
-      <div className="leadership-proof-thumb-wrap">
+      <div
+        className="proof-stage-frame"
+        style={
+          isPortrait || !proof.width || !proof.height
+            ? undefined
+            : { aspectRatio: `${proof.width} / ${proof.height}` }
+        }
+      >
         <img
           src={proof.src}
-          alt={proof.alt || label}
-          width={thumbWidth}
-          height={thumbHeight}
+          alt={proof.alt || accessibleName}
+          width={proof.width}
+          height={proof.height}
           loading="lazy"
-          className="leadership-proof-thumb"
+          decoding="async"
+          onError={() => setHasError(true)}
+          className="proof-stage-img"
         />
-        <div className="leadership-proof-badge">
-          <FiFileText size={12} aria-hidden="true" />
-          <span>{label}</span>
+
+        {/* Floating caption chip overlay at bottom-right */}
+        <div className="proof-stage-chip" aria-hidden="true">
+          <FiMaximize2 size={11} />
+          <span>{badgeText}</span>
         </div>
+
+        {/* Hover / focus "Click to enlarge" badge for portrait */}
+        {isPortrait && (
+          <div className="proof-enlarge-hint" aria-hidden="true">
+            <span>Click to enlarge</span>
+          </div>
+        )}
       </div>
     </button>
   );
