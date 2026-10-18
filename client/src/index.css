@@ -72,6 +72,7 @@ html[data-theme="crimson-gold"] {
   --border: rgba(255, 77, 77, 0.14);
   --gfaint: rgba(255, 196, 0, 0.08);
   --gborder: rgba(255, 196, 0, 0.18);
+  --error: #ff8a65;
 }
 
 html[data-theme="royal-mint"] {
@@ -95,6 +96,7 @@ html[data-theme="royal-mint"] {
   --sans: 'Outfit', sans-serif;
   --mono: 'JetBrains Mono', monospace;
   --error: #ff5252;
+  --lightbox-overlay: rgba(6, 8, 10, 0.88);
 
   /* Semantic aliases */
   --bg-primary: var(--ink);
