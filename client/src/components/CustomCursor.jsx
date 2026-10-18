@@ -3,6 +3,8 @@ import React, { useEffect, useRef } from 'react';
 const CustomCursor = () => {
   const dotRef = useRef(null);
   const ringRef = useRef(null);
+  const colorsRef = useRef({ green: '', gold: '', border: '' });
+  const isHoveredRef = useRef(false);
 
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -15,6 +17,45 @@ const CustomCursor = () => {
     let rx = 0;
     let ry = 0;
     let rafId = null;
+
+    const updateColors = () => {
+      const computed = window.getComputedStyle(document.documentElement);
+      colorsRef.current = {
+        green: computed.getPropertyValue('--green').trim(),
+        gold: computed.getPropertyValue('--gold').trim(),
+        border: computed.getPropertyValue('--border').trim()
+      };
+      applyColors();
+    };
+
+    const applyColors = () => {
+      const { green, gold, border } = colorsRef.current;
+      if (dotRef.current && ringRef.current) {
+        if (isHoveredRef.current) {
+          dotRef.current.style.backgroundColor = gold;
+          ringRef.current.style.borderColor = gold;
+        } else {
+          dotRef.current.style.backgroundColor = green;
+          ringRef.current.style.borderColor = border || green;
+        }
+      }
+    };
+
+    updateColors();
+
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.type === 'attributes' && m.attributeName === 'data-theme') {
+          updateColors();
+          break;
+        }
+      }
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
 
     const onMouseMove = (e) => {
       mx = e.clientX;
@@ -37,10 +78,19 @@ const CustomCursor = () => {
 
     const onMouseOver = (e) => {
       const target = e.target;
-      if (target && target.closest('a, button, input, textarea, select, .cursor-hover, [role="button"]')) {
-        document.body.classList.add('cursor-gold');
-      } else {
-        document.body.classList.remove('cursor-gold');
+      const isInteractive = Boolean(
+        target &&
+          target.closest('a, button, input, textarea, select, .cursor-hover, [role="button"], [role="menuitemradio"]')
+      );
+
+      if (isInteractive !== isHoveredRef.current) {
+        isHoveredRef.current = isInteractive;
+        if (isInteractive) {
+          document.body.classList.add('cursor-gold');
+        } else {
+          document.body.classList.remove('cursor-gold');
+        }
+        applyColors();
       }
     };
 
@@ -52,6 +102,7 @@ const CustomCursor = () => {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseover', onMouseOver);
       if (rafId) cancelAnimationFrame(rafId);
+      observer.disconnect();
       document.body.classList.remove('cursor-gold');
     };
   }, []);

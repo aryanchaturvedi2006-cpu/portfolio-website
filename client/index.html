@@ -1,20 +1,33 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="emerald-gold">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="dark light" />
-    <script>
-      try {
-        var theme = localStorage.getItem('ac-theme-choice');
-        if (theme === 'light' || theme === 'dark') {
-          document.documentElement.setAttribute('data-theme', theme);
-        }
-      } catch (e) {}
-    </script>
-    <title>Aryan Chaturvedi | Full Stack Developer</title>
-    <meta name="description" content="Portfolio of Aryan Chaturvedi — Full Stack Developer & ML Enthusiast, B.Tech CSE & AI at JK Lakshmipat University." />
+    <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#06080a" />
+    <script>
+      (function () {
+        var themeColors = {
+          'emerald-gold': '#06080a',
+          'cyber-cyan': '#050a12',
+          'violet-rose': '#08060f',
+          'crimson-gold': '#0a0606',
+          'royal-mint': '#060912'
+        };
+        var activeTheme = 'emerald-gold';
+        try {
+          var saved = localStorage.getItem('ac-theme');
+          if (saved && themeColors[saved]) {
+            activeTheme = saved;
+          }
+        } catch (e) {}
+        document.documentElement.setAttribute('data-theme', activeTheme);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) {
+          meta.setAttribute('content', themeColors[activeTheme]);
+        }
+      })();
+    </script>
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

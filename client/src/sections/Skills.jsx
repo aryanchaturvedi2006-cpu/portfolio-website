@@ -6,9 +6,7 @@ import { portfolioData } from '../data/portfolioData';
 const SkillItem = ({ skill, index, accentColor = 'var(--green)' }) => {
   const [isActive, setIsActive] = useState(false);
   const isGold = accentColor.includes('gold');
-  const glowShadow = isGold
-    ? '0 0 10px rgba(245, 197, 24, 0.7)'
-    : '0 0 10px rgba(0, 230, 118, 0.7)';
+  const glowShadow = `0 0 10px ${accentColor}`;
 
   return (
     <div
@@ -103,7 +101,7 @@ const SkillItem = ({ skill, index, accentColor = 'var(--green)' }) => {
             zIndex: 10,
             whiteSpace: 'nowrap',
             pointerEvents: 'none',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.35)'
+            boxShadow: '0 4px 12px var(--ink)'
           }}
         >
           {skill.name} - {skill.percent}% proficiency
