@@ -1,14 +1,18 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { FiBriefcase } from 'react-icons/fi';
 import { FaGraduationCap } from 'react-icons/fa';
 import SectionTitle from '../components/SectionTitle';
+import Lightbox from '../components/Lightbox';
+import ProofThumbnail from '../components/ProofThumbnail';
 import { portfolioData } from '../data/portfolioData';
 import './Timeline.css';
 
 const Timeline = () => {
   const { timeline } = portfolioData;
   const containerRef = useRef(null);
+  const triggerBtnRef = useRef(null);
+  const [activeProof, setActiveProof] = useState(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -151,11 +155,25 @@ const Timeline = () => {
                         fontSize: '0.88rem',
                         color: 'var(--muted)',
                         lineHeight: 1.7,
-                        fontWeight: 300
+                        fontWeight: 300,
+                        marginBottom: item.proof ? '0.4rem' : 0
                       }}
                     >
                       {item.description}
                     </p>
+
+                    {/* Leadership Proof Button (Requirement 2) */}
+                    {item.proof && (
+                      <ProofThumbnail
+                        proof={item.proof}
+                        role={item.title}
+                        date={item.period}
+                        onOpen={(proof, role, date, btnEl) => {
+                          triggerBtnRef.current = btnEl;
+                          setActiveProof({ proof, role, date });
+                        }}
+                      />
+                    )}
                   </div>
                 </motion.div>
               </div>
@@ -163,6 +181,41 @@ const Timeline = () => {
           })}
         </div>
       </div>
+
+      {/* Shared Accessible Lightbox Modal */}
+      <Lightbox
+        isOpen={Boolean(activeProof)}
+        onClose={() => setActiveProof(null)}
+        title={activeProof ? `${activeProof.role} (${activeProof.date})` : ''}
+        topbarLabel={
+          activeProof
+            ? `${
+                activeProof.proof.src.includes('hackjklu')
+                  ? 'certificate'
+                  : 'appointment letter'
+              } // ${activeProof.role}`
+            : ''
+        }
+        triggerRef={triggerBtnRef}
+        image={
+          activeProof
+            ? {
+                src: activeProof.proof.src,
+                alt: activeProof.proof.alt,
+                width: activeProof.proof.width,
+                height: activeProof.proof.height
+              }
+            : null
+        }
+        caption={
+          activeProof
+            ? {
+                title: activeProof.role,
+                date: activeProof.date
+              }
+            : null
+        }
+      />
     </section>
   );
 };

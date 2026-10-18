@@ -5,10 +5,10 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiMaximize2,
-  FiX,
   FiArrowRight
 } from 'react-icons/fi';
 import SectionTitle from '../components/SectionTitle';
+import Lightbox from '../components/Lightbox';
 import { portfolioData } from '../data/portfolioData';
 import './Projects.css';
 
@@ -46,7 +46,6 @@ const Projects = () => {
 
   const trackRef = useRef(null);
   const slideRefs = useRef([]);
-  const lightboxCloseBtnRef = useRef(null);
   const previouslyFocusedRef = useRef(null);
 
   // Dynamic image dimension handler (Requirement 2: no hardcoded values)
@@ -324,56 +323,6 @@ const Projects = () => {
     previouslyFocusedRef.current = document.activeElement;
     setActiveLightbox(project);
   };
-
-  // Lightbox Focus Trap, Escape key & Body Scroll Lock
-  useEffect(() => {
-    if (!activeLightbox) return;
-
-    document.body.style.overflow = 'hidden';
-
-    // Focus close button on open
-    const timer = setTimeout(() => {
-      lightboxCloseBtnRef.current?.focus();
-    }, 50);
-
-    const onLightboxKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        setActiveLightbox(null);
-      } else if (e.key === 'Tab') {
-        const dialog = document.getElementById('project-lightbox-dialog');
-        if (!dialog) return;
-        const focusable = dialog.querySelectorAll(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
-        if (focusable.length === 0) return;
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-
-        if (e.shiftKey) {
-          if (document.activeElement === first) {
-            e.preventDefault();
-            last.focus();
-          }
-        } else {
-          if (document.activeElement === last) {
-            e.preventDefault();
-            first.focus();
-          }
-        }
-      }
-    };
-
-    window.addEventListener('keydown', onLightboxKeyDown);
-    return () => {
-      clearTimeout(timer);
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', onLightboxKeyDown);
-      if (previouslyFocusedRef.current && previouslyFocusedRef.current.focus) {
-        previouslyFocusedRef.current.focus();
-      }
-    };
-  }, [activeLightbox]);
 
   return (
     <section
@@ -676,68 +625,28 @@ const Projects = () => {
         </div>
       </div>
 
-      {/* Accessible Lightbox Modal Dialog (Requirement 3: never upscaled beyond natural size) */}
-      {activeLightbox && (
-        <div
-          className="project-lightbox-backdrop"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setActiveLightbox(null);
-            }
-          }}
-        >
-          <div
-            id="project-lightbox-dialog"
-            role="dialog"
-            aria-modal="true"
-            aria-label={`${activeLightbox.title} Screenshot Preview`}
-            className="project-lightbox-window"
-          >
-            {/* Lightbox Top Bar with real hostname */}
-            <div className="lightbox-topbar">
-              <span className="lightbox-title-label">
-                preview // {getBrowserFrameLabel(activeLightbox)}
-              </span>
-              <button
-                ref={lightboxCloseBtnRef}
-                type="button"
-                className="lightbox-close-btn"
-                onClick={() => setActiveLightbox(null)}
-                aria-label="Close preview dialog"
-              >
-                <FiX size={15} />
-              </button>
-            </div>
-
-            {/* Lightbox Image Area */}
-            <div className="lightbox-img-area">
-              {!imgFailed[activeLightbox.id] && activeLightbox.image ? (
-                <img
-                  ref={(el) => handleImageRef(activeLightbox.id, el)}
-                  src={activeLightbox.image}
-                  alt={`${activeLightbox.title} Full View`}
-                  onLoad={(e) => handleImageLoad(activeLightbox.id, e)}
-                  className="lightbox-img"
-                  style={{
-                    maxWidth: imgDimensions[activeLightbox.id]?.naturalWidth
-                      ? `min(100%, ${imgDimensions[activeLightbox.id].naturalWidth}px)`
-                      : '100%',
-                    maxHeight: imgDimensions[activeLightbox.id]?.naturalHeight
-                      ? `min(65vh, ${imgDimensions[activeLightbox.id].naturalHeight}px)`
-                      : '65vh',
-                    width: 'auto',
-                    height: 'auto',
-                    objectFit: 'contain'
-                  }}
-                />
-              ) : (
-                <div className="project-preview-fallback">
-                  <span>// preview unavailable</span>
-                </div>
-              )}
-            </div>
-
-            {/* Lightbox Bottom Bar */}
+      {/* Shared Accessible Lightbox */}
+      <Lightbox
+        isOpen={Boolean(activeLightbox)}
+        onClose={() => setActiveLightbox(null)}
+        title={activeLightbox ? `${activeLightbox.title} Screenshot Preview` : ''}
+        topbarLabel={activeLightbox ? `preview // ${getBrowserFrameLabel(activeLightbox)}` : ''}
+        triggerRef={previouslyFocusedRef}
+        image={{
+          src: activeLightbox && !imgFailed[activeLightbox.id] ? activeLightbox.image : null,
+          alt: activeLightbox ? `${activeLightbox.title} Full View` : '',
+          naturalWidth: activeLightbox ? imgDimensions[activeLightbox.id]?.naturalWidth : undefined,
+          naturalHeight: activeLightbox ? imgDimensions[activeLightbox.id]?.naturalHeight : undefined,
+          maxWidth: activeLightbox && imgDimensions[activeLightbox.id]?.naturalWidth
+            ? `min(100%, ${imgDimensions[activeLightbox.id].naturalWidth}px)`
+            : '100%',
+          maxHeight: activeLightbox && imgDimensions[activeLightbox.id]?.naturalHeight
+            ? `min(65vh, ${imgDimensions[activeLightbox.id].naturalHeight}px)`
+            : '65vh',
+          onLoad: (e) => activeLightbox && handleImageLoad(activeLightbox.id, e)
+        }}
+        bottomContent={
+          activeLightbox ? (
             <div className="lightbox-bottombar">
               <div className="lightbox-bottombar-left">
                 <span className="lightbox-project-title">{activeLightbox.title}</span>
@@ -796,9 +705,9 @@ const Projects = () => {
                 )}
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          ) : null
+        }
+      />
     </section>
   );
 };

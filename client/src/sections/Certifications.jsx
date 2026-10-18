@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FiAward, FiExternalLink } from 'react-icons/fi';
 import SectionTitle from '../components/SectionTitle';
+import Lightbox from '../components/Lightbox';
+import ProofThumbnail from '../components/ProofThumbnail';
 import { portfolioData } from '../data/portfolioData';
 
 const CertCard = ({ cert, index }) => {
@@ -187,6 +189,8 @@ const CertCard = ({ cert, index }) => {
 
 const Certifications = () => {
   const { certifications, achievements } = portfolioData;
+  const [activeProof, setActiveProof] = useState(null);
+  const triggerBtnRef = useRef(null);
 
   return (
     <section id="certifications" aria-labelledby="certifications-title" className="section section-alt">
@@ -250,51 +254,123 @@ const Certifications = () => {
               const aBorder = isEvenA ? 'var(--gborder)' : 'var(--border)';
               const aBg = isEvenA ? 'var(--gfaint)' : 'var(--faint)';
 
+              const title = typeof item === 'string' ? item : item.title;
+              const period = typeof item === 'object' ? item.period : null;
+              const proof = typeof item === 'object' ? item.proof : null;
+
               return (
                 <div
-                  key={item}
+                  key={title}
                   className={`card ${aCardClass}`}
                   style={{
                     backgroundColor: 'var(--ink3)',
-                    padding: '1.2rem 1.4rem',
+                    padding: '1.4rem',
                     display: 'flex',
-                    alignItems: 'center',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
                     gap: '12px'
                   }}
                 >
-                  <div
-                    style={{
-                      width: '34px',
-                      height: '34px',
-                      borderRadius: '2px',
-                      backgroundColor: aBg,
-                      border: `1px solid ${aBorder}`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'var(--gold)',
-                      flexShrink: 0
-                    }}
-                    aria-hidden="true"
-                  >
-                    <FiAward size={16} />
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                    <div
+                      style={{
+                        width: '34px',
+                        height: '34px',
+                        borderRadius: '2px',
+                        backgroundColor: aBg,
+                        border: `1px solid ${aBorder}`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'var(--gold)',
+                        flexShrink: 0,
+                        marginTop: '2px'
+                      }}
+                      aria-hidden="true"
+                    >
+                      <FiAward size={16} />
+                    </div>
+                    <div>
+                      <span
+                        style={{
+                          fontFamily: 'var(--sans)',
+                          fontSize: '0.95rem',
+                          color: 'var(--text)',
+                          fontWeight: 600,
+                          display: 'block',
+                          marginBottom: '2px'
+                        }}
+                      >
+                        {title}
+                      </span>
+                      {period && (
+                        <span
+                          style={{
+                            fontFamily: 'var(--mono)',
+                            fontSize: '0.64rem',
+                            color: 'var(--gold)',
+                            letterSpacing: '0.04em'
+                          }}
+                        >
+                          {period}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <span
-                    style={{
-                      fontFamily: 'var(--sans)',
-                      fontSize: '0.92rem',
-                      color: 'var(--text)',
-                      fontWeight: 500
-                    }}
-                  >
-                    {item}
-                  </span>
+
+                  {/* Proof Thumbnail Button (Requirement 2) */}
+                  {proof && (
+                    <ProofThumbnail
+                      proof={proof}
+                      role={title}
+                      date={period}
+                      onOpen={(proofData, role, date, btnEl) => {
+                        triggerBtnRef.current = btnEl;
+                        setActiveProof({ proof: proofData, role, date });
+                      }}
+                    />
+                  )}
                 </div>
               );
             })}
           </div>
         </motion.div>
       </div>
+
+      {/* Shared Accessible Lightbox for Leadership Proofs */}
+      <Lightbox
+        isOpen={Boolean(activeProof)}
+        onClose={() => setActiveProof(null)}
+        title={activeProof ? `${activeProof.role} (${activeProof.date})` : ''}
+        topbarLabel={
+          activeProof
+            ? `${
+                activeProof.proof.src.includes('hackjklu')
+                  ? 'certificate'
+                  : 'appointment letter'
+              } // ${activeProof.role}`
+            : ''
+        }
+        triggerRef={triggerBtnRef}
+        image={
+          activeProof
+            ? {
+                src: activeProof.proof.src,
+                alt: activeProof.proof.alt,
+                width: activeProof.proof.width,
+                height: activeProof.proof.height
+              }
+            : null
+        }
+        caption={
+          activeProof
+            ? {
+                title: activeProof.role,
+                date: activeProof.date
+              }
+            : null
+        }
+      />
     </section>
   );
 };

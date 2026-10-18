@@ -100,18 +100,30 @@ export const portfolioData = {
     {
       id: 2,
       type: "experience",
-      title: "Discipline Coordinator, College Hackathon 2026",
+      title: "Discipline Coordinator, HackJKLU v5.0",
       org: "JK Lakshmipat University",
-      period: "2026",
-      description: "Ensured smooth conduct and discipline across all hackathon zones, coordinated with event teams and managed participants."
+      period: "13–15 March 2026",
+      description: "Ensured smooth conduct and discipline across all hackathon zones, coordinated with event teams and managed participants.",
+      proof: {
+        src: '/certs/hackjklu-appreciation.jpg',
+        alt: 'Certificate of Appreciation — Aryan Chaturvedi, Coordinator of Discipline Committee, HackJKLU v5.0 (13–15 March 2026)',
+        width: 1700,
+        height: 1202
+      }
     },
     {
       id: 3,
       type: "experience",
       title: "Boys' Hostel Coordinator",
       org: "JK Lakshmipat University",
-      period: "Sep 2025 - Sep 2026",
-      description: "Managed hostel administration, student welfare and inter-hostel coordination for the entire boys' wing, building leadership and organizational skills."
+      period: "Sep 2025 – Sep 2026",
+      description: "Managed hostel administration, student welfare and inter-hostel coordination for the entire boys' wing for academic year 2025–26, appointed via the Student Affairs team of JKLU (letter dated 23 November 2025). Tenure completed.",
+      proof: {
+        src: '/certs/hostel-coordinator-letter.jpg',
+        alt: "Appointment letter — Aryan Chaturvedi, Boys' Hostel Coordinator 2025–26, JK Lakshmipat University (dated 23 November 2025)",
+        width: 1000,
+        height: 1360
+      }
     },
     {
       id: 4,
@@ -142,8 +154,26 @@ export const portfolioData = {
     }
   ],
   achievements: [
-    "Discipline Coordinator, College Hackathon 2026 (JKLU)",
-    "Boys' Hostel Coordinator, JKLU (Sep 2025 - Sep 2026)"
+    {
+      title: "Discipline Coordinator, HackJKLU v5.0",
+      period: "13–15 March 2026",
+      proof: {
+        src: '/certs/hackjklu-appreciation.jpg',
+        alt: 'Certificate of Appreciation — Aryan Chaturvedi, Coordinator of Discipline Committee, HackJKLU v5.0 (13–15 March 2026)',
+        width: 1700,
+        height: 1202
+      }
+    },
+    {
+      title: "Boys' Hostel Coordinator, JKLU",
+      period: "Sep 2025 – Sep 2026",
+      proof: {
+        src: '/certs/hostel-coordinator-letter.jpg',
+        alt: "Appointment letter — Aryan Chaturvedi, Boys' Hostel Coordinator 2025–26, JK Lakshmipat University (dated 23 November 2025)",
+        width: 1000,
+        height: 1360
+      }
+    }
   ]
 };
 

@@ -1,0 +1,220 @@
+/* ═══════════════════════════════════════════════════
+   SHARED ACCESSIBLE LIGHTBOX DIALOG
+   (Flat design, no gradients, 2px radius, theme tokens)
+═══════════════════════════════════════════════════ */
+
+.lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--lightbox-overlay, rgba(6, 8, 10, 0.88));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.lightbox-window {
+  max-width: 1040px;
+  width: 100%;
+  max-height: 94vh;
+  background: var(--ink2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 16px 48px var(--faint);
+}
+
+.lightbox-window.lightbox-portrait {
+  max-width: min(850px, 94vw);
+}
+
+.lightbox-window.lightbox-landscape {
+  max-width: min(1140px, 96vw);
+}
+
+.lightbox-topbar {
+  height: 38px;
+  padding: 0 14px;
+  background: var(--ink3);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.lightbox-title-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--text);
+  letter-spacing: 0.06em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: calc(100% - 36px);
+}
+
+.lightbox-close-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 2px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+}
+
+.lightbox-close-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.lightbox-close-btn:focus-visible {
+  outline: 2px solid var(--green) !important;
+  outline-offset: 2px;
+}
+
+.lightbox-img-area {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  padding: 1.25rem;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 2px;
+  border: 1px solid var(--border);
+  display: block;
+}
+
+.lightbox-bottombar {
+  padding: 0.85rem 1.25rem;
+  background: var(--ink3);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  flex-shrink: 0;
+}
+
+.lightbox-bottombar-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lightbox-caption-title {
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.lightbox-caption-date {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+
+/* ═══════ LEADERSHIP PROOF THUMBNAIL BUTTON ═══════ */
+.leadership-proof-btn {
+  display: inline-flex;
+  flex-direction: column;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  text-align: left;
+  border-radius: 2px;
+  transition: transform 0.2s ease;
+  margin-top: 0.9rem;
+}
+
+.leadership-proof-btn:hover {
+  transform: translateY(-2px);
+}
+
+.leadership-proof-btn:focus-visible {
+  outline: 2px solid var(--green) !important;
+  outline-offset: 3px;
+}
+
+.leadership-proof-thumb-wrap {
+  width: 160px;
+  border: 1px solid var(--gborder);
+  border-radius: 2px;
+  overflow: hidden;
+  background: var(--ink3);
+  position: relative;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.leadership-proof-btn:hover .leadership-proof-thumb-wrap {
+  border-color: var(--gold);
+}
+
+.leadership-proof-thumb {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  background: var(--ink3);
+}
+
+.leadership-proof-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 5px 8px;
+  background: var(--ink4);
+  border-top: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.leadership-proof-btn:hover .leadership-proof-badge {
+  color: var(--text);
+  background: var(--gfaint);
+}
+
+@media (max-width: 680px) {
+  .leadership-proof-btn {
+    width: 100%;
+  }
+
+  .leadership-proof-thumb-wrap {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .lightbox-backdrop {
+    padding: 0.75rem;
+  }
+}
