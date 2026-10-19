@@ -1,10 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
-import { FiBriefcase } from 'react-icons/fi';
+import { FiBriefcase, FiExternalLink } from 'react-icons/fi';
 import { FaGraduationCap } from 'react-icons/fa';
 import SectionTitle from '../components/SectionTitle';
 import Lightbox from '../components/Lightbox';
-import ProofThumbnail from '../components/ProofThumbnail';
 import { portfolioData } from '../data/portfolioData';
 import './Timeline.css';
 
@@ -162,17 +161,28 @@ const Timeline = () => {
                       {item.description}
                     </p>
 
-                    {/* Leadership Proof Button (Requirement 2) */}
+                    {/* View Certificate Button */}
                     {item.proof && (
-                      <ProofThumbnail
-                        proof={item.proof}
-                        role={item.title}
-                        date={item.period}
-                        onOpen={(proof, role, date, btnEl) => {
-                          triggerBtnRef.current = btnEl;
-                          setActiveProof({ proof, role, date });
-                        }}
-                      />
+                      <div style={{ marginTop: '1.1rem' }}>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            triggerBtnRef.current = e.currentTarget;
+                            setActiveProof({ proof: item.proof, role: item.title, date: item.period });
+                          }}
+                          className={isEvenItem ? 'btn btn-fill-gold cursor-hover' : 'btn btn-fill-g cursor-hover'}
+                          style={{
+                            width: '100%',
+                            justifyContent: 'center',
+                            padding: '9px 14px',
+                            fontSize: '0.78rem',
+                            cursor: 'pointer'
+                          }}
+                          aria-label={`View certificate for ${item.title}`}
+                        >
+                          <FiExternalLink size={13} /> View Certificate
+                        </button>
+                      </div>
                     )}
                   </div>
                 </motion.div>
