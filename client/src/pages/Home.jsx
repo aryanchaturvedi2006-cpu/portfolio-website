@@ -9,6 +9,7 @@ const Skills = lazy(() => import('../sections/Skills'));
 const Projects = lazy(() => import('../sections/Projects'));
 const Timeline = lazy(() => import('../sections/Timeline'));
 const Certifications = lazy(() => import('../sections/Certifications'));
+const Resume = lazy(() => import('../sections/Resume'));
 const Contact = lazy(() => import('../sections/Contact'));
 
 const SectionFallback = () => (
@@ -58,6 +59,7 @@ const Home = () => {
           <Projects />
           <Timeline />
           <Certifications />
+          <Resume />
           <Contact />
         </Suspense>
       </main>

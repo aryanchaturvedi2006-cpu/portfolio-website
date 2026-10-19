@@ -20,10 +20,12 @@ const CertCard = ({ cert, index, onOpenProof }) => {
       style={{
         backgroundColor: 'var(--ink3)',
         borderRadius: '2px',
-        padding: '1.5rem',
+        padding: '1.6rem',
         display: 'flex',
         flexDirection: 'column',
-        gap: '14px'
+        justifyContent: 'space-between',
+        gap: '16px',
+        height: '100%'
       }}
       initial={{ opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -31,37 +33,40 @@ const CertCard = ({ cert, index, onOpenProof }) => {
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <div>
-        {/* Date and Issuer Row */}
+        {/* Top Row: Icon Badge & Issued Date */}
         <div
           style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginBottom: '0.5rem',
-            flexWrap: 'wrap',
-            gap: '8px'
+            marginBottom: '1rem'
           }}
         >
-          <span
+          <div
             style={{
-              fontFamily: 'var(--mono)',
-              fontSize: '0.64rem',
-              color: 'var(--gold)',
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase'
+              width: '38px',
+              height: '38px',
+              borderRadius: '2px',
+              backgroundColor: isEven ? 'var(--gfaint)' : 'var(--faint)',
+              border: `1px solid ${isEven ? 'var(--gborder)' : 'var(--border)'}`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: isEven ? 'var(--gold)' : 'var(--green)',
             }}
+            aria-hidden="true"
           >
-            {cert.issuer}
-          </span>
+            <FiAward size={18} />
+          </div>
 
           <span
             style={{
               fontFamily: 'var(--mono)',
-              fontSize: '0.62rem',
-              color: 'var(--gold)',
-              backgroundColor: 'var(--gfaint)',
-              border: '1px solid var(--gborder)',
-              padding: '2px 7px',
+              fontSize: '0.66rem',
+              color: isEven ? 'var(--gold)' : 'var(--green)',
+              backgroundColor: isEven ? 'var(--gfaint)' : 'var(--faint)',
+              border: `1px solid ${isEven ? 'var(--gborder)' : 'var(--border)'}`,
+              padding: '3px 8px',
               borderRadius: '2px',
               letterSpacing: '0.06em'
             }}
@@ -78,12 +83,25 @@ const CertCard = ({ cert, index, onOpenProof }) => {
             fontWeight: 700,
             color: 'var(--text)',
             letterSpacing: '-0.02em',
-            marginBottom: cert.credentialId ? '0.4rem' : '0.2rem',
-            lineHeight: 1.25
+            marginBottom: '0.4rem',
+            lineHeight: 1.3
           }}
         >
           {cert.title}
         </h3>
+
+        {/* Issuer */}
+        <div
+          style={{
+            fontFamily: 'var(--mono)',
+            fontSize: '0.72rem',
+            color: isEven ? 'var(--gold)' : 'var(--green)',
+            letterSpacing: '0.04em',
+            marginBottom: cert.credentialId ? '0.35rem' : '0'
+          }}
+        >
+          {cert.issuer}
+        </div>
 
         {/* Credential ID */}
         {cert.credentialId && (
@@ -91,46 +109,53 @@ const CertCard = ({ cert, index, onOpenProof }) => {
             style={{
               fontFamily: 'var(--mono)',
               fontSize: '0.66rem',
-              color: 'var(--gold)',
-              letterSpacing: '0.04em',
-              marginBottom: '0.2rem'
+              color: 'var(--muted)',
+              letterSpacing: '0.04em'
             }}
           >
             Credential ID: {cert.credentialId}
           </div>
         )}
-
-        {/* Optional Valid External Link (Hidden if placeholder) */}
-        {hasValidLink && (
-          <div style={{ marginTop: '0.75rem' }}>
-            <a
-              href={cert.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={isEven ? 'btn btn-fill-gold' : 'btn btn-fill-g'}
-              style={{
-                width: '100%',
-                justifyContent: 'center',
-                padding: '6px 12px',
-                fontSize: '0.75rem'
-              }}
-              aria-label={`Verify credential for ${cert.title}`}
-            >
-              <FiExternalLink size={12} /> Verify Credential
-            </a>
-          </div>
-        )}
       </div>
 
-      {/* Large Proof Stage */}
-      {cert.proof && (
-        <ProofThumbnail
-          proof={cert.proof}
-          role={cert.title}
-          date={cert.date}
-          onOpen={onOpenProof}
-        />
-      )}
+      {/* Action Buttons: View Certificate / Verify Credential */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: 'auto', paddingTop: '0.5rem' }}>
+        {cert.proof && (
+          <button
+            type="button"
+            onClick={(e) => onOpenProof(cert.proof, cert.title, cert.date, e.currentTarget)}
+            className={isEven ? 'btn btn-fill-gold cursor-hover' : 'btn btn-fill-g cursor-hover'}
+            style={{
+              width: '100%',
+              justifyContent: 'center',
+              padding: '9px 14px',
+              fontSize: '0.78rem',
+              cursor: 'pointer'
+            }}
+            aria-label={`View certificate for ${cert.title}`}
+          >
+            <FiExternalLink size={13} /> View Certificate
+          </button>
+        )}
+
+        {hasValidLink && (
+          <a
+            href={cert.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={isEven ? 'btn btn-line-gold cursor-hover' : 'btn cursor-hover'}
+            style={{
+              width: '100%',
+              justifyContent: 'center',
+              padding: '8px 14px',
+              fontSize: '0.75rem'
+            }}
+            aria-label={`Verify credential for ${cert.title}`}
+          >
+            <FiExternalLink size={12} /> Verify Credential
+          </a>
+        )}
+      </div>
     </motion.div>
   );
 };
