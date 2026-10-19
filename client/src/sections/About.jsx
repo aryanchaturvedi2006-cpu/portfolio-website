@@ -87,6 +87,7 @@ const About = () => {
                     width: '100%',
                     height: '100%',
                     objectFit: 'cover',
+                    objectPosition: '55% 15%',
                     display: 'block'
                   }}
                 />
