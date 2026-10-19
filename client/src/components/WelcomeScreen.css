@@ -1,90 +1,373 @@
 /* ═══════════════════════════════════════════════════
-   CINEMATIC INTRO / WELCOME SCREEN
-   Minimalist, full-screen typography.
-   NO boxes/cards, NO emojis, NO gradients, 2px radius.
+   CINEMATIC INTRO SPLASH
+   Split-curtain reveal, letter slide-up with blur & sweep,
+   text scramble decode, mono progress counter.
+   Matches all 5 themes using CSS variable tokens.
 ═══════════════════════════════════════════════════ */
 
-.welcome-screen {
+/* Custom cursor hidden while splash is active */
+html.splash-active #c-dot,
+html.splash-active #c-ring {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Screen reader only utility */
+.splash-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Splash container */
+.splash-overlay {
   position: fixed;
   inset: 0;
-  z-index: 99990;
-  background-color: var(--ink);
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 100000;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px 24px;
-  cursor: pointer;
-  user-select: none;
-  opacity: 1;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.5s ease,
-              visibility 0.5s ease;
-  will-change: opacity, transform;
+  background-color: transparent;
 }
 
-.welcome-screen.welcome-screen-exit {
-  opacity: 0;
-  transform: scale(1.04);
-  filter: blur(6px);
-  pointer-events: none;
-  visibility: hidden;
+/* Split Curtains */
+.splash-curtain-top,
+.splash-curtain-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background-color: var(--ink);
+  z-index: 1;
+  transform: translateY(0);
+  transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: transform;
 }
 
-.welcome-inner {
-  text-align: center;
+.splash-curtain-top {
+  top: 0;
+}
+
+.splash-curtain-bottom {
+  bottom: 0;
+}
+
+/* Split Curtain Exit */
+.splash-exiting .splash-curtain-top {
+  transform: translateY(-100%);
+}
+
+.splash-exiting .splash-curtain-bottom {
+  transform: translateY(100%);
+}
+
+/* Fast Exit (0.4s) */
+.splash-fast-exit .splash-curtain-top {
+  transform: translateY(-100%);
+  transition-duration: 0.4s;
+}
+
+.splash-fast-exit .splash-curtain-bottom {
+  transform: translateY(100%);
+  transition-duration: 0.4s;
+}
+
+/* Center Content Area */
+.splash-center {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  width: 100%;
+  max-width: 900px;
+  padding: 0 1.5rem;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: opacity, transform;
   pointer-events: none;
 }
 
-.welcome-name {
-  font-family: var(--sans);
-  font-size: clamp(3rem, 8.5vw, 6.2rem);
-  font-weight: 800;
-  color: var(--text);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  margin: 0;
-  animation: welcomeFadeSlideUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.welcome-text {
-  font-family: var(--sans);
-  font-size: clamp(1.5rem, 4.2vw, 2.8rem);
-  font-weight: 500;
-  color: var(--green);
-  letter-spacing: 0.04em;
-  margin-top: 14px;
+.splash-exiting .splash-center {
   opacity: 0;
-  animation: welcomeFadeSlideUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+  transform: scale(1.04);
 }
 
-@keyframes welcomeFadeSlideUp {
+/* 0.00-0.50s: Mono Label */
+.splash-mono-label {
+  font-family: var(--mono);
+  font-size: clamp(0.62rem, 1.4vw, 0.72rem);
+  letter-spacing: 0.3em;
+  color: var(--muted);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: splashFadeIn 0.5s ease 0.05s forwards;
+  margin-bottom: 0.6rem;
+}
+
+/* 0.00-0.50s: 1px Accent Line */
+.splash-accent-line {
+  height: 1px;
+  width: min(520px, 70vw);
+  background: linear-gradient(90deg, var(--green), var(--gold));
+  transform-origin: center;
+  transform: scaleX(0);
+  animation: splashLineExpand 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  margin-bottom: 0.8rem;
+}
+
+@keyframes splashLineExpand {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes splashFadeIn {
   from {
     opacity: 0;
-    transform: translateY(22px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
+/* 0.40-1.50s: Name Typography */
+.splash-name {
+  font-family: var(--sans);
+  font-size: clamp(2.2rem, 8vw, 6.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  max-width: 100%;
+}
+
+.splash-word {
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+.splash-space {
+  display: inline-block;
+  width: 0.28em;
+}
+
+@media (max-width: 480px) {
+  .splash-space {
+    display: none;
+    width: 100%;
+  }
+}
+
+/* Overflow-hidden mask for each sliding letter */
+.splash-char-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: 1.1;
+  padding: 0.04em 0;
+}
+
+/* Individual letter sliding up from 110% with blur + highlight sweep */
+.splash-char {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(110%);
+  animation: splashCharReveal 0.48s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  will-change: transform, opacity, filter;
+  background: linear-gradient(110deg, var(--text) 20%, var(--green2) 50%, var(--text) 80%);
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--text);
+}
+
+/* CSS-based stagger delays (0.40s - 0.89s) */
+.splash-w1 .splash-char-mask:nth-child(1) .splash-char { animation-delay: 0.400s; }
+.splash-w1 .splash-char-mask:nth-child(2) .splash-char { animation-delay: 0.435s; }
+.splash-w1 .splash-char-mask:nth-child(3) .splash-char { animation-delay: 0.470s; }
+.splash-w1 .splash-char-mask:nth-child(4) .splash-char { animation-delay: 0.505s; }
+.splash-w1 .splash-char-mask:nth-child(5) .splash-char { animation-delay: 0.540s; }
+
+.splash-w2 .splash-char-mask:nth-child(1) .splash-char { animation-delay: 0.575s; }
+.splash-w2 .splash-char-mask:nth-child(2) .splash-char { animation-delay: 0.610s; }
+.splash-w2 .splash-char-mask:nth-child(3) .splash-char { animation-delay: 0.645s; }
+.splash-w2 .splash-char-mask:nth-child(4) .splash-char { animation-delay: 0.680s; }
+.splash-w2 .splash-char-mask:nth-child(5) .splash-char { animation-delay: 0.715s; }
+.splash-w2 .splash-char-mask:nth-child(6) .splash-char { animation-delay: 0.750s; }
+.splash-w2 .splash-char-mask:nth-child(7) .splash-char { animation-delay: 0.785s; }
+.splash-w2 .splash-char-mask:nth-child(8) .splash-char { animation-delay: 0.820s; }
+.splash-w2 .splash-char-mask:nth-child(9) .splash-char { animation-delay: 0.855s; }
+.splash-w2 .splash-char-mask:nth-child(10) .splash-char { animation-delay: 0.890s; }
+
+@keyframes splashCharReveal {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(110%);
+    background-position: 100% 0;
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0%);
+    background-position: -40% 0;
+  }
+}
+
+/* 1.30-2.20s: Subtitle ("welcomes you") with Scramble Decode */
+.splash-subtitle-wrap {
+  margin-top: 0.8rem;
+  min-height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.splash-subtitle {
+  font-family: var(--mono);
+  font-size: clamp(1rem, 2.8vw, 1.45rem);
+  font-weight: 500;
+  color: var(--green);
+  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.splash-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background-color: var(--green);
+  margin-left: 3px;
+  animation: splashBlink 0.6s step-end infinite;
+}
+
+@keyframes splashBlink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Footer: Counter & Skip Button */
+.splash-footer {
+  position: absolute;
+  bottom: 1.4rem;
+  left: 0;
+  right: 0;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.splash-counter {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+
+.splash-skip-btn {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  background: var(--ink2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 5px 12px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.splash-skip-btn:hover {
+  color: var(--green);
+  border-color: var(--green);
+}
+
+/* Bottom Progress Bar */
+.splash-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--green), var(--gold));
+  z-index: 12;
+  will-change: width;
+}
+
+/* Reduced Motion Mode */
+.splash-reduced {
+  background-color: var(--ink);
+  transition: opacity 0.3s ease;
+}
+
+.splash-reduced.splash-fade-out {
+  opacity: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .welcome-name,
-  .welcome-text {
+  .splash-curtain-top,
+  .splash-curtain-bottom {
+    display: none !important;
+  }
+  .splash-overlay {
+    background-color: var(--ink) !important;
+    transition: opacity 0.3s ease !important;
+  }
+  .splash-overlay.splash-exiting {
+    opacity: 0 !important;
+  }
+  .splash-char {
+    animation: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+  .splash-mono-label,
+  .splash-accent-line {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
   }
-  .welcome-screen {
-    transition: opacity 0.3s ease !important;
+  .splash-caret {
+    display: none !important;
   }
-  .welcome-screen.welcome-screen-exit {
-    filter: none !important;
-    transform: none !important;
+  .splash-progress-bar {
+    display: none !important;
   }
 }

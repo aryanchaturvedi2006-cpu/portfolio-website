@@ -100,11 +100,27 @@ const ParticleBackground = () => {
       animId = requestAnimationFrame(anim);
     };
 
-    animId = requestAnimationFrame(anim);
+    let isSplashDone = true;
+    try {
+      isSplashDone = Boolean(sessionStorage.getItem('ac-splash-seen'));
+    } catch {}
+
+    const startAnim = () => {
+      if (!animId) {
+        animId = requestAnimationFrame(anim);
+      }
+    };
+
+    if (isSplashDone) {
+      startAnim();
+    } else {
+      window.addEventListener('ac-splash-done', startAnim, { once: true });
+    }
 
     return () => {
       window.removeEventListener('resize', rsz);
-      cancelAnimationFrame(animId);
+      window.removeEventListener('ac-splash-done', startAnim);
+      if (animId) cancelAnimationFrame(animId);
       observer.disconnect();
     };
   }, []);
