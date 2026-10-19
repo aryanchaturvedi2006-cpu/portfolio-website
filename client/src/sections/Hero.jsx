@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
 import { FiDownload, FiArrowDown, FiGithub, FiLinkedin } from 'react-icons/fi';
 import './Hero.css';
 
 const Hero = () => {
+  const [splashDone, setSplashDone] = useState(() => {
+    try {
+      return Boolean(sessionStorage.getItem('ac-splash-seen'));
+    } catch {
+      return true;
+    }
+  });
+
+  useEffect(() => {
+    if (splashDone) return;
+    const handleSplashDone = () => setSplashDone(true);
+    window.addEventListener('ac-splash-done', handleSplashDone);
+    return () => window.removeEventListener('ac-splash-done', handleSplashDone);
+  }, [splashDone]);
+
   const handleScrollToProjects = () => {
     const projectsSection = document.getElementById('projects');
     if (projectsSection) {
@@ -43,7 +58,7 @@ const Hero = () => {
           className="hero-left"
           variants={containerVariants}
           initial="hidden"
-          animate="visible"
+          animate={splashDone ? 'visible' : 'hidden'}
         >
 
 
@@ -56,21 +71,25 @@ const Hero = () => {
           {/* Typewriter Roles */}
           <motion.div className="hero-sub" variants={itemVariants}>
             <span className="tw-gold">
-              <TypeAnimation
-                sequence={[
-                  'Full Stack Developer.',
-                  2000,
-                  'MERN Stack Developer.',
-                  2000,
-                  'AI/ML Enthusiast.',
-                  2000,
-                  'B.Tech CSE & AI Student.',
-                  2000
-                ]}
-                wrapper="span"
-                speed={50}
-                repeat={Infinity}
-              />
+              {splashDone ? (
+                <TypeAnimation
+                  sequence={[
+                    'Full Stack Developer.',
+                    2000,
+                    'MERN Stack Developer.',
+                    2000,
+                    'AI/ML Enthusiast.',
+                    2000,
+                    'B.Tech CSE & AI Student.',
+                    2000
+                  ]}
+                  wrapper="span"
+                  speed={50}
+                  repeat={Infinity}
+                />
+              ) : (
+                <span>&nbsp;</span>
+              )}
             </span>
           </motion.div>
 
@@ -149,8 +168,8 @@ const Hero = () => {
         <motion.div
           className="hero-card"
           initial={{ opacity: 0, x: 25 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.65, delay: 0.25 }}
+          animate={splashDone ? { opacity: 1, x: 0 } : { opacity: 0, x: 25 }}
+          transition={{ duration: 0.65, delay: 0.2 }}
         >
 
           <div className="hc-row row-green">
