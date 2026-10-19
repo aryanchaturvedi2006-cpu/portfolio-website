@@ -10,6 +10,7 @@ const navItems = [
   { label: 'Projects', href: '#projects' },
   { label: 'Timeline', href: '#timeline' },
   { label: 'Certifications', href: '#certifications' },
+  { label: 'Resume', href: '#resume' },
   { label: 'Contact', href: '#contact' }
 ];
 
@@ -37,7 +38,7 @@ const Navbar = () => {
 
   // IntersectionObserver for active section highlighting
   useEffect(() => {
-    const sectionIds = ['hero', 'about', 'skills', 'projects', 'timeline', 'certifications', 'contact'];
+    const sectionIds = ['hero', 'about', 'skills', 'projects', 'timeline', 'certifications', 'resume', 'contact'];
 
     const observer = new IntersectionObserver(
       (entries) => {

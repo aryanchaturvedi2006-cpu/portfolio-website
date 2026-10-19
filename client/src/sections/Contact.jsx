@@ -5,7 +5,6 @@ import { FiMail, FiMapPin, FiCopy, FiCheck, FiSend, FiGithub, FiLinkedin, FiDown
 import SectionTitle from '../components/SectionTitle';
 
 const EMAIL_ADDRESS = 'aryanchaturvedi2006@gmail.com';
-const API_URL = import.meta.env.VITE_API_URL || '';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -309,30 +308,26 @@ const Contact = () => {
 
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                   <a
-                    href={`${API_URL}/api/resume/pdf`}
+                    href="/Aryan_Chaturvedi_Resume.pdf"
+                    download="Aryan_Chaturvedi_Resume.pdf"
                     className="btn btn-fill-gold"
                     style={{
                       padding: '0.45rem 0.8rem',
                       fontSize: '0.65rem'
                     }}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    download
                     aria-label="Download Resume PDF"
                   >
                     <FiDownload size={12} /> PDF
                   </a>
 
                   <a
-                    href={`${API_URL}/api/resume/docx`}
+                    href="/Aryan_Chaturvedi_Resume.docx"
+                    download="Aryan_Chaturvedi_Resume.docx"
                     className="btn btn-line-gold"
                     style={{
                       padding: '0.45rem 0.8rem',
                       fontSize: '0.65rem'
                     }}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    download
                     aria-label="Download Resume DOCX"
                   >
                     <FiDownload size={12} /> DOCX

@@ -1,0 +1,90 @@
+/* ═══════════════════════════════════════════════════
+   CINEMATIC INTRO / WELCOME SCREEN
+   Minimalist, full-screen typography.
+   NO boxes/cards, NO emojis, NO gradients, 2px radius.
+═══════════════════════════════════════════════════ */
+
+.welcome-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  background-color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  cursor: pointer;
+  user-select: none;
+  opacity: 1;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.5s ease,
+              visibility 0.5s ease;
+  will-change: opacity, transform;
+}
+
+.welcome-screen.welcome-screen-exit {
+  opacity: 0;
+  transform: scale(1.04);
+  filter: blur(6px);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.welcome-inner {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.welcome-name {
+  font-family: var(--sans);
+  font-size: clamp(3rem, 8.5vw, 6.2rem);
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin: 0;
+  animation: welcomeFadeSlideUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.welcome-text {
+  font-family: var(--sans);
+  font-size: clamp(1.5rem, 4.2vw, 2.8rem);
+  font-weight: 500;
+  color: var(--green);
+  letter-spacing: 0.04em;
+  margin-top: 14px;
+  opacity: 0;
+  animation: welcomeFadeSlideUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+
+@keyframes welcomeFadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome-name,
+  .welcome-text {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .welcome-screen {
+    transition: opacity 0.3s ease !important;
+  }
+  .welcome-screen.welcome-screen-exit {
+    filter: none !important;
+    transform: none !important;
+  }
+}

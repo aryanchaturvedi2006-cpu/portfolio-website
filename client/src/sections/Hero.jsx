@@ -5,8 +5,6 @@ import { FiDownload, FiArrowDown, FiGithub, FiLinkedin } from 'react-icons/fi';
 import './Hero.css';
 
 const Hero = () => {
-  const apiUrl = import.meta.env.VITE_API_URL || '';
-
   const handleScrollToProjects = () => {
     const projectsSection = document.getElementById('projects');
     if (projectsSection) {
@@ -98,22 +96,18 @@ const Hero = () => {
             </button>
 
             <a
-              href={`${apiUrl}/api/resume/pdf`}
+              href="/Aryan_Chaturvedi_Resume.pdf"
+              download="Aryan_Chaturvedi_Resume.pdf"
               className="btn btn-fill-gold"
-              target="_blank"
-              rel="noopener noreferrer"
-              download
               aria-label="Download CV (PDF)"
             >
               <FiDownload size={13} /> Download CV (PDF)
             </a>
 
             <a
-              href={`${apiUrl}/api/resume/docx`}
+              href="/Aryan_Chaturvedi_Resume.docx"
+              download="Aryan_Chaturvedi_Resume.docx"
               className="btn btn-line-gold"
-              target="_blank"
-              rel="noopener noreferrer"
-              download
               aria-label="Download CV (DOCX)"
             >
               <FiDownload size={13} /> Download CV (DOCX)

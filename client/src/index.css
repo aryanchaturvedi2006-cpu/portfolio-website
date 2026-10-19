@@ -152,39 +152,76 @@ html, body, .section, .section-alt, .card, nav.nav-bar, .mob-menu, .btn, .btn-ic
 
 /* ═══════ CURSOR (Desktop Fine Pointer Only) ═══════ */
 @media (hover: hover) and (pointer: fine) {
-  body {
+  html.custom-cursor-active,
+  html.custom-cursor-active body,
+  html.custom-cursor-active a,
+  html.custom-cursor-active button,
+  html.custom-cursor-active [role="button"],
+  html.custom-cursor-active [role="tab"],
+  html.custom-cursor-active [role="menuitemradio"],
+  html.custom-cursor-active .cursor-hover {
     cursor: none;
   }
-  a, button, input, textarea, select, .cursor-hover {
-    cursor: none;
+
+  html.custom-cursor-active input,
+  html.custom-cursor-active textarea {
+    cursor: text;
   }
-  #c-dot {
+
+  html.custom-cursor-active select {
+    cursor: pointer;
+  }
+
+  #c-dot,
+  #c-ring {
     position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    border-radius: 50%;
+    opacity: 0;
+    visibility: hidden;
+    will-change: transform, opacity;
+  }
+
+  html.custom-cursor-active #c-dot.c-visible,
+  html.custom-cursor-active #c-ring.c-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* When over text inputs, hide custom cursor to show native I-beam */
+  html.custom-cursor-active #c-dot.c-text-mode,
+  html.custom-cursor-active #c-ring.c-text-mode {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  #c-dot {
     width: 7px;
     height: 7px;
     background: var(--green);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.15s, background 0.2s;
+    box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.75), 0 1px 3px rgba(0, 0, 0, 0.5);
+    z-index: 99999;
+    transition: background-color 0.2s ease, opacity 0.15s ease, visibility 0.15s ease;
   }
+
   #c-ring {
-    position: fixed;
     width: 32px;
     height: 32px;
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: border-color 0.2s ease;
+    border: 1.5px solid var(--green);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45);
+    z-index: 99998;
+    transition: border-color 0.2s ease, background-color 0.2s ease, opacity 0.15s ease, visibility 0.15s ease;
   }
-  .cursor-gold #c-dot {
+
+  #c-dot.cursor-hover {
     background: var(--gold);
   }
-  .cursor-gold #c-ring {
-    border-color: var(--gborder);
+
+  #c-ring.cursor-hover {
+    border-color: var(--gold);
+    background: var(--gfaint);
   }
 }
 
