@@ -20,10 +20,15 @@ const WelcomeScreen = () => {
     }
   });
 
+  const [isReduced] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches || false;
+  });
+
   const [isCompleted, setIsCompleted] = useState(!shouldShow);
   const [exitMode, setExitMode] = useState('');
-  const [progress, setProgress] = useState(0);
-  const [scrambleText, setScrambleText] = useState('            ');
+  const [progress, setProgress] = useState(() => (isReduced ? 100 : 0));
+  const [scrambleText, setScrambleText] = useState(() => (isReduced ? TARGET_TEXT : '            '));
   const [showCaret, setShowCaret] = useState(false);
 
   const startTimeRef = useRef(0);
@@ -59,14 +64,11 @@ const WelcomeScreen = () => {
       return;
     }
 
-    const isReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
     originalOverflowRef.current = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     document.documentElement.classList.add('splash-active');
 
     if (isReduced) {
-      setScrambleText(TARGET_TEXT);
-      setProgress(100);
       const timer = setTimeout(() => {
         setExitMode('fast');
         setTimeout(finishSplash, 300);
@@ -122,7 +124,7 @@ const WelcomeScreen = () => {
       document.body.style.overflow = originalOverflowRef.current || '';
       document.documentElement.classList.remove('splash-active');
     };
-  }, [finishSplash, shouldShow, triggerExit, exitMode]);
+  }, [finishSplash, shouldShow, triggerExit, exitMode, isReduced]);
 
   if (isCompleted || !shouldShow) return null;
 
