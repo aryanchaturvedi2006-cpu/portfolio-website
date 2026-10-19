@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import { FiMail, FiMapPin, FiCopy, FiCheck, FiSend, FiGithub, FiLinkedin, FiDownload } from 'react-icons/fi';
 import SectionTitle from '../components/SectionTitle';
+import { API_ENDPOINTS } from '../services/api';
 
 const EMAIL_ADDRESS = 'aryanchaturvedi2006@gmail.com';
 
@@ -83,8 +84,7 @@ const Contact = () => {
     setLoading(true);
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || '';
-      const response = await axios.post(`${apiUrl}/api/contact`, {
+      const response = await axios.post(API_ENDPOINTS.contact, {
         name: formData.name.trim(),
         email: formData.email.trim(),
         message: formData.message.trim()
@@ -308,7 +308,7 @@ const Contact = () => {
 
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                   <a
-                    href="/Aryan_Chaturvedi_Resume.pdf"
+                    href={API_ENDPOINTS.resumePdf}
                     download="Aryan_Chaturvedi_Resume.pdf"
                     className="btn btn-fill-gold"
                     style={{
@@ -321,7 +321,7 @@ const Contact = () => {
                   </a>
 
                   <a
-                    href="/Aryan_Chaturvedi_Resume.docx"
+                    href={API_ENDPOINTS.resumeDocx}
                     download="Aryan_Chaturvedi_Resume.docx"
                     className="btn btn-line-gold"
                     style={{

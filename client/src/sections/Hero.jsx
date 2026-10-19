@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
 import { FiDownload, FiArrowDown, FiGithub, FiLinkedin } from 'react-icons/fi';
+import { API_ENDPOINTS } from '../services/api';
 import './Hero.css';
 
 const Hero = () => {
@@ -109,7 +110,7 @@ const Hero = () => {
             </button>
 
             <a
-              href="/Aryan_Chaturvedi_Resume.pdf"
+              href={API_ENDPOINTS.resumePdf}
               download="Aryan_Chaturvedi_Resume.pdf"
               className="btn btn-fill-gold"
               aria-label="Download CV (PDF)"
@@ -118,7 +119,7 @@ const Hero = () => {
             </a>
 
             <a
-              href="/Aryan_Chaturvedi_Resume.docx"
+              href={API_ENDPOINTS.resumeDocx}
               download="Aryan_Chaturvedi_Resume.docx"
               className="btn btn-line-gold"
               aria-label="Download CV (DOCX)"

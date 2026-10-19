@@ -4,8 +4,8 @@ A modern, high-performance portfolio web application built with the MERN stack (
 
 ## Live Deployment Links
 
-- Frontend (Client): [LIVE_FRONTEND_URL](LIVE_FRONTEND_URL)
-- Backend API (Server): [LIVE_BACKEND_URL](LIVE_BACKEND_URL)
+- Frontend (Client): `LIVE_FRONTEND_URL` (To be configured upon Vercel deployment)
+- Backend API (Server): `LIVE_BACKEND_URL` (To be configured upon Render deployment)
 
 ## Features
 
@@ -33,13 +33,14 @@ A modern, high-performance portfolio web application built with the MERN stack (
 ```
 portfolio-website/
 ├── client/                     # Vite + React Frontend SPA
-│   ├── public/                 # Static assets (favicons, svgs)
+│   ├── public/                 # Static assets (favicons, svgs, certs, projects)
 │   ├── src/
-│   │   ├── components/         # Shared UI (Navbar, Footer, SectionTitle, CustomCursor, ParticleBackground, ThemePicker)
+│   │   ├── components/         # Shared UI (Navbar, Footer, SectionTitle, CustomCursor, ParticleBackground, ThemePicker, Lightbox)
 │   │   ├── context/            # ThemeContext (5 selectable dark themes)
-│   │   ├── data/               # portfolioData.js (content & constants)
+│   │   ├── data/               # portfolioData.js (content & constants), themes.js
 │   │   ├── pages/              # Home.jsx and NotFound.jsx (404)
-│   │   ├── sections/           # Hero, About, Skills, Projects, Timeline, Certifications, Contact
+│   │   ├── sections/           # Hero, About, Skills, Projects, Timeline, Certifications, Resume, Contact
+│   │   ├── services/           # api.js (Centralized API base URL and endpoint routes)
 │   │   ├── App.jsx             # Router and Providers root
 │   │   ├── index.css           # Global tokens and design system
 │   │   └── main.jsx            # Application entrypoint
