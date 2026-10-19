@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { FiAward, FiExternalLink } from 'react-icons/fi';
 import SectionTitle from '../components/SectionTitle';
 import Lightbox from '../components/Lightbox';
-import ProofThumbnail from '../components/ProofThumbnail';
 import { portfolioData } from '../data/portfolioData';
 
 const CertCard = ({ cert, index, onOpenProof }) => {
@@ -238,81 +237,125 @@ const Certifications = () => {
               const aCardClass = isEvenA ? 'card-gold' : 'card-green';
               const aBorder = isEvenA ? 'var(--gborder)' : 'var(--border)';
               const aBg = isEvenA ? 'var(--gfaint)' : 'var(--faint)';
+              const aAccent = isEvenA ? 'var(--gold)' : 'var(--green)';
 
               const title = typeof item === 'string' ? item : item.title;
               const period = typeof item === 'object' ? item.period : null;
               const proof = typeof item === 'object' ? item.proof : null;
 
               return (
-                <div
+                <motion.div
                   key={title}
                   className={`card ${aCardClass}`}
                   style={{
                     backgroundColor: 'var(--ink3)',
-                    padding: '1.5rem',
+                    borderRadius: '2px',
+                    padding: '1.6rem',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '14px',
-                    borderRadius: '2px'
+                    justifyContent: 'space-between',
+                    gap: '16px',
+                    height: '100%'
                   }}
+                  initial={{ opacity: 0, y: 22 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: aIdx * 0.1 }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                  <div>
+                    {/* Top Row: Icon Badge & Issued Date */}
                     <div
                       style={{
-                        width: '34px',
-                        height: '34px',
-                        borderRadius: '2px',
-                        backgroundColor: aBg,
-                        border: `1px solid ${aBorder}`,
                         display: 'flex',
+                        justifyContent: 'space-between',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'var(--gold)',
-                        flexShrink: 0,
-                        marginTop: '2px'
+                        marginBottom: '1rem'
                       }}
-                      aria-hidden="true"
                     >
-                      <FiAward size={16} />
-                    </div>
-                    <div>
-                      <span
+                      <div
                         style={{
-                          fontFamily: 'var(--sans)',
-                          fontSize: '0.98rem',
-                          color: 'var(--text)',
-                          fontWeight: 600,
-                          display: 'block',
-                          marginBottom: '2px'
+                          width: '38px',
+                          height: '38px',
+                          borderRadius: '2px',
+                          backgroundColor: aBg,
+                          border: `1px solid ${aBorder}`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: aAccent,
                         }}
+                        aria-hidden="true"
                       >
-                        {title}
-                      </span>
+                        <FiAward size={18} />
+                      </div>
+
                       {period && (
                         <span
                           style={{
                             fontFamily: 'var(--mono)',
-                            fontSize: '0.64rem',
-                            color: 'var(--gold)',
-                            letterSpacing: '0.04em'
+                            fontSize: '0.66rem',
+                            color: aAccent,
+                            backgroundColor: aBg,
+                            border: `1px solid ${aBorder}`,
+                            padding: '3px 8px',
+                            borderRadius: '2px',
+                            letterSpacing: '0.06em'
                           }}
                         >
                           {period}
                         </span>
                       )}
                     </div>
+
+                    {/* Title */}
+                    <h4
+                      style={{
+                        fontFamily: 'var(--sans)',
+                        fontSize: '1.2rem',
+                        fontWeight: 700,
+                        color: 'var(--text)',
+                        letterSpacing: '-0.02em',
+                        marginBottom: '0.4rem',
+                        lineHeight: 1.3
+                      }}
+                    >
+                      {title}
+                    </h4>
+
+                    {/* Issuer / Organization */}
+                    <div
+                      style={{
+                        fontFamily: 'var(--mono)',
+                        fontSize: '0.72rem',
+                        color: aAccent,
+                        letterSpacing: '0.04em'
+                      }}
+                    >
+                      JK Lakshmipat University
+                    </div>
                   </div>
 
-                  {/* Large Proof Stage Button (Normal flow, no empty gap) */}
+                  {/* Action Button: View Certificate */}
                   {proof && (
-                    <ProofThumbnail
-                      proof={proof}
-                      role={title}
-                      date={period}
-                      onOpen={handleOpenProof}
-                    />
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: 'auto', paddingTop: '0.5rem' }}>
+                      <button
+                        type="button"
+                        onClick={(e) => handleOpenProof(proof, title, period, e.currentTarget)}
+                        className={isEvenA ? 'btn btn-fill-gold cursor-hover' : 'btn btn-fill-g cursor-hover'}
+                        style={{
+                          width: '100%',
+                          justifyContent: 'center',
+                          padding: '9px 14px',
+                          fontSize: '0.78rem',
+                          cursor: 'pointer'
+                        }}
+                        aria-label={`View certificate for ${title}`}
+                      >
+                        <FiExternalLink size={13} /> View Certificate
+                      </button>
+                    </div>
                   )}
-                </div>
+                </motion.div>
               );
             })}
           </div>

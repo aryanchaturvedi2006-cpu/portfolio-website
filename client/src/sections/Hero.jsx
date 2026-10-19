@@ -45,13 +45,7 @@ const Hero = () => {
           initial="hidden"
           animate="visible"
         >
-          {/* Eyebrow Badge */}
-          <motion.div variants={itemVariants}>
-            <div className="hero-eyebrow">
-              <span className="pulse" />
-              B.Tech CSE &amp; AI — JK Lakshmipat University · 2024–28
-            </div>
-          </motion.div>
+
 
           {/* Name */}
           <motion.h1 id="hero-title" className="hero-name" variants={itemVariants}>
@@ -158,7 +152,7 @@ const Hero = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.65, delay: 0.25 }}
         >
-          <div className="hc-tag">// quick.info</div>
+
           <div className="hc-row row-green">
             <span className="hc-k">name</span>
             <span className="hc-v">Aryan Chaturvedi</span>
