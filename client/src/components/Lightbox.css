@@ -38,14 +38,51 @@
 }
 
 .lightbox-topbar {
-  height: 38px;
+  height: 42px;
   padding: 0 14px;
   background: var(--ink3);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   flex-shrink: 0;
+}
+
+.lightbox-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+.lightbox-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--ink2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+}
+
+.lightbox-back-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gfaint);
+}
+
+.lightbox-back-btn:focus-visible {
+  outline: 2px solid var(--green) !important;
+  outline-offset: 2px;
 }
 
 .lightbox-title-label {
@@ -56,7 +93,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: calc(100% - 36px);
 }
 
 .lightbox-close-btn {
@@ -64,8 +100,8 @@
   border: 1px solid var(--border);
   color: var(--muted);
   border-radius: 2px;
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,11 +113,22 @@
 .lightbox-close-btn:hover {
   border-color: var(--gold);
   color: var(--gold);
+  background: var(--gfaint);
 }
 
 .lightbox-close-btn:focus-visible {
   outline: 2px solid var(--green) !important;
   outline-offset: 2px;
+}
+
+.lightbox-bottom-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 0.76rem;
+  font-family: var(--mono);
+  cursor: pointer;
 }
 
 .lightbox-img-area {
@@ -298,6 +345,25 @@
 
   .lightbox-backdrop {
     padding: 0.75rem;
+  }
+
+  .lightbox-topbar {
+    height: 40px;
+    padding: 0 10px;
+    gap: 8px;
+  }
+
+  .lightbox-topbar-left {
+    gap: 8px;
+  }
+
+  .lightbox-back-btn {
+    padding: 3px 8px;
+    font-size: 0.68rem;
+  }
+
+  .lightbox-title-label {
+    font-size: 0.62rem;
   }
 }
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { FiX } from 'react-icons/fi';
+import { createPortal } from 'react-dom';
+import { FiX, FiArrowLeft } from 'react-icons/fi';
 import './Lightbox.css';
 
 const Lightbox = ({
@@ -94,11 +95,11 @@ const Lightbox = ({
     ? image.maxHeight
     : maxNaturalH
       ? isPortrait
-        ? `min(90vh, ${maxNaturalH}px)`
-        : `min(90vh, ${maxNaturalH}px)`
-      : '90vh';
+        ? `min(75vh, ${maxNaturalH}px)`
+        : `min(75vh, ${maxNaturalH}px)`
+      : '75vh';
 
-  return (
+  const lightboxContent = (
     <div
       className="lightbox-backdrop"
       onClick={(e) => {
@@ -119,11 +120,22 @@ const Lightbox = ({
       >
         {/* Lightbox Top Bar */}
         <div className="lightbox-topbar">
-          <span className="lightbox-title-label">{topbarLabel || title}</span>
+          <div className="lightbox-topbar-left">
+            <button
+              type="button"
+              className="lightbox-back-btn cursor-hover"
+              onClick={onClose}
+              aria-label="Back to portfolio"
+            >
+              <FiArrowLeft size={14} />
+              <span>Back</span>
+            </button>
+            <span className="lightbox-title-label">{topbarLabel || title}</span>
+          </div>
           <button
             ref={closeBtnRef}
             type="button"
-            className="lightbox-close-btn"
+            className="lightbox-close-btn cursor-hover"
             onClick={onClose}
             aria-label="Close dialog"
           >
@@ -157,25 +169,37 @@ const Lightbox = ({
         {/* Lightbox Bottom Bar */}
         {bottomContent ? (
           bottomContent
-        ) : caption ? (
+        ) : (
           <div className="lightbox-bottombar">
             <div className="lightbox-bottombar-left">
               {typeof caption === 'string' ? (
                 <span className="lightbox-caption-title">{caption}</span>
-              ) : (
+              ) : caption ? (
                 <>
                   <span className="lightbox-caption-title">{caption.title}</span>
                   {caption.date && (
                     <span className="lightbox-caption-date">{caption.date}</span>
                   )}
                 </>
-              )}
+              ) : null}
             </div>
+            <button
+              type="button"
+              className="btn btn-line-gold cursor-hover lightbox-bottom-back-btn"
+              onClick={onClose}
+              aria-label="Back to portfolio"
+            >
+              <FiArrowLeft size={13} /> Back
+            </button>
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   );
+
+  return typeof document !== 'undefined'
+    ? createPortal(lightboxContent, document.body)
+    : null;
 };
 
 export default Lightbox;
