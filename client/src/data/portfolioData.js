@@ -1,10 +1,11 @@
-export const REPO_URL_CAFEBUDDY = "REPO_URL_CAFEBUDDY";
-export const REPO_URL_EDUSYNC = "REPO_URL_EDUSYNC";
-export const REPO_URL_IPL = "REPO_URL_IPL";
-export const REPO_URL_TELEMEDICINE = "REPO_URL_TELEMEDICINE";
+export const REPO_URL_CAFEBUDDY = "https://github.com/aryanchaturvedi2006-cpu/cafeteria-app.git";
+export const REPO_URL_EDUSYNC = "https://github.com/aryanchaturvedi2006-cpu/student-management-system.git";
+export const REPO_URL_IPL = "https://github.com/aryanchaturvedi2006-cpu/ipl-predictor.git";
+export const REPO_URL_TELEMEDICINE = "https://github.com/aryanchaturvedi2006-cpu/telemedicine-rural-healthcare.git";
 export const LIVE_URL_TELEMEDICINE = "LIVE_URL_TELEMEDICINE";
 export const CERT_URL_1 = "CERT_URL_1";
 export const CERT_URL_2 = "CERT_URL_2";
+export const CERT_URL_REDHAT = "https://www.credly.com/badges/7078c7e6-b93d-4ab4-a75b-6e6c744747e4";
 
 export const portfolioData = {
   about: {
@@ -137,6 +138,19 @@ export const portfolioData = {
   certifications: [
     {
       id: 1,
+      title: "Red Hat System Administration I (RH124 - RHA) - Ver. 10",
+      issuer: "Red Hat",
+      date: "27 April 2026",
+      link: CERT_URL_REDHAT,
+      proof: {
+        src: '/certs/redhat-rh124.jpg',
+        alt: 'Certificate of Attendance — Red Hat System Administration I (RH124 - RHA) - Ver. 10, Red Hat, awarded to Aryan Chaturvedi, April 27, 2026',
+        width: 2376,
+        height: 1836
+      }
+    },
+    {
+      id: 2,
       title: "Database Management System Part - 1",
       issuer: "Infosys Springboard",
       date: "28 November 2025",
@@ -148,7 +162,7 @@ export const portfolioData = {
       }
     },
     {
-      id: 2,
+      id: 3,
       title: "Introduction to Generative AI",
       issuer: "Simplilearn SkillUP (Google Cloud course)",
       date: "21 June 2025",
@@ -162,7 +176,7 @@ export const portfolioData = {
       }
     },
     {
-      id: 3,
+      id: 4,
       title: "What Is Generative AI?",
       issuer: "LinkedIn Learning",
       date: "29 April 2025",
