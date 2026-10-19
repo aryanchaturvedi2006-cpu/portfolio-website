@@ -5,24 +5,83 @@ const CustomCursor = () => {
   const ringRef = useRef(null);
 
   useEffect(() => {
-    const finePointerQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
-    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-
     let rafId = null;
     let isActive = false;
     let hasMoved = false;
 
-    let mx = 0;
-    let my = 0;
-    let rx = 0;
-    let ry = 0;
+    let mx = -100;
+    let my = -100;
+    let rx = -100;
+    let ry = -100;
 
     let ringScale = 1;
     let targetRingScale = 1;
     let dotScale = 1;
     let targetDotScale = 1;
 
-    const onMouseMove = (e) => {
+    const prefersReducedMotion = () => {
+      try {
+        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      } catch {
+        return false;
+      }
+    };
+
+    const showCursor = () => {
+      if (dotRef.current && !dotRef.current.classList.contains('c-visible')) {
+        dotRef.current.classList.add('c-visible');
+      }
+      if (ringRef.current && !ringRef.current.classList.contains('c-visible')) {
+        ringRef.current.classList.add('c-visible');
+      }
+    };
+
+    const hideCursor = () => {
+      if (dotRef.current) {
+        dotRef.current.classList.remove('c-visible');
+      }
+      if (ringRef.current) {
+        ringRef.current.classList.remove('c-visible');
+      }
+    };
+
+    const checkInteractive = (target) => {
+      if (!target) return;
+      const isInput = Boolean(target.closest('input, textarea'));
+      const isInteractive = Boolean(
+        target.closest(
+          'a, button, [role="button"], [role="tab"], [role="menuitemradio"], [role="radio"], summary, .cursor-hover, .btn, .filter-chip, .project-card, .proof-thumbnail, .theme-swatch, .theme-option-btn, .theme-chip, .lightbox-back-btn, .lightbox-close-btn, .card'
+        )
+      );
+
+      if (isInput) {
+        dotRef.current?.classList.add('c-text-mode');
+        ringRef.current?.classList.add('c-text-mode');
+      } else {
+        dotRef.current?.classList.remove('c-text-mode');
+        ringRef.current?.classList.remove('c-text-mode');
+      }
+
+      if (isInteractive) {
+        targetRingScale = 1.35;
+        targetDotScale = 0.75;
+        dotRef.current?.classList.add('cursor-hover');
+        ringRef.current?.classList.add('cursor-hover');
+      } else {
+        targetRingScale = 1;
+        targetDotScale = 1;
+        dotRef.current?.classList.remove('cursor-hover');
+        ringRef.current?.classList.remove('cursor-hover');
+      }
+    };
+
+    const onPointerMove = (e) => {
+      // If event is touch, hide custom cursor
+      if (e.pointerType === 'touch') {
+        hideCursor();
+        return;
+      }
+
       mx = e.clientX;
       my = e.clientY;
 
@@ -30,61 +89,48 @@ const CustomCursor = () => {
         hasMoved = true;
         rx = mx;
         ry = my;
-        if (dotRef.current) dotRef.current.classList.add('c-visible');
-        if (ringRef.current) ringRef.current.classList.add('c-visible');
+      }
+
+      if (!isActive) {
+        isActive = true;
+        document.documentElement.classList.add('custom-cursor-active');
+      }
+
+      showCursor();
+      checkInteractive(e.target);
+    };
+
+    const onPointerLeave = (e) => {
+      if (!e.relatedTarget && !e.toElement) {
+        hideCursor();
       }
     };
 
-    const onMouseLeave = () => {
-      if (dotRef.current) dotRef.current.classList.remove('c-visible');
-      if (ringRef.current) ringRef.current.classList.remove('c-visible');
-    };
-
-    const onMouseEnter = () => {
+    const onPointerEnter = (e) => {
+      if (e.pointerType === 'touch') return;
       if (hasMoved) {
-        if (dotRef.current) dotRef.current.classList.add('c-visible');
-        if (ringRef.current) ringRef.current.classList.add('c-visible');
+        showCursor();
       }
     };
 
-    const onMouseOver = (e) => {
-      const target = e.target;
-      if (!target) return;
-
-      const isInput = Boolean(target.closest('input, textarea'));
-      const isInteractive = Boolean(
-        target.closest(
-          'a, button, [role="button"], [role="tab"], [role="menuitemradio"], summary, .cursor-hover, .btn, .filter-chip, .project-card, .proof-thumbnail, .theme-swatch'
-        )
-      );
-
-      if (isInput) {
-        if (dotRef.current) dotRef.current.classList.add('c-text-mode');
-        if (ringRef.current) ringRef.current.classList.add('c-text-mode');
-      } else {
-        if (dotRef.current) dotRef.current.classList.remove('c-text-mode');
-        if (ringRef.current) ringRef.current.classList.remove('c-text-mode');
-      }
-
-      if (isInteractive) {
-        targetRingScale = 1.35;
-        targetDotScale = 0.75;
-        if (dotRef.current) dotRef.current.classList.add('cursor-hover');
-        if (ringRef.current) ringRef.current.classList.add('cursor-hover');
-      } else {
-        targetRingScale = 1;
-        targetDotScale = 1;
-        if (dotRef.current) dotRef.current.classList.remove('cursor-hover');
-        if (ringRef.current) ringRef.current.classList.remove('cursor-hover');
-      }
+    const onTouchStart = () => {
+      hideCursor();
     };
 
     const loop = () => {
       if (hasMoved) {
-        rx += (mx - rx) * 0.2;
-        ry += (my - ry) * 0.2;
-        ringScale += (targetRingScale - ringScale) * 0.2;
-        dotScale += (targetDotScale - dotScale) * 0.2;
+        const reduced = prefersReducedMotion();
+        if (reduced) {
+          rx = mx;
+          ry = my;
+          ringScale = targetRingScale;
+          dotScale = targetDotScale;
+        } else {
+          rx += (mx - rx) * 0.22;
+          ry += (my - ry) * 0.22;
+          ringScale += (targetRingScale - ringScale) * 0.22;
+          dotScale += (targetDotScale - dotScale) * 0.22;
+        }
 
         if (dotRef.current) {
           dotRef.current.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%) scale(${dotScale.toFixed(3)})`;
@@ -96,70 +142,24 @@ const CustomCursor = () => {
       rafId = requestAnimationFrame(loop);
     };
 
-    const activate = () => {
-      if (isActive) return;
-      isActive = true;
-      document.documentElement.classList.add('custom-cursor-active');
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    window.addEventListener('mousemove', onPointerMove, { passive: true });
+    document.addEventListener('mouseleave', onPointerLeave);
+    document.addEventListener('mouseenter', onPointerEnter);
+    window.addEventListener('blur', hideCursor);
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
 
-      window.addEventListener('mousemove', onMouseMove, { passive: true });
-      document.addEventListener('mouseleave', onMouseLeave);
-      document.addEventListener('mouseenter', onMouseEnter);
-      window.addEventListener('mouseover', onMouseOver, { passive: true });
-      rafId = requestAnimationFrame(loop);
-    };
-
-    const deactivate = () => {
-      if (!isActive) return;
-      isActive = false;
-      document.documentElement.classList.remove('custom-cursor-active');
-
-      window.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseleave', onMouseLeave);
-      document.removeEventListener('mouseenter', onMouseEnter);
-      window.removeEventListener('mouseover', onMouseOver);
-
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-        rafId = null;
-      }
-      if (dotRef.current) {
-        dotRef.current.classList.remove('c-visible', 'cursor-hover', 'c-text-mode');
-      }
-      if (ringRef.current) {
-        ringRef.current.classList.remove('c-visible', 'cursor-hover', 'c-text-mode');
-      }
-    };
-
-    const syncState = () => {
-      const shouldEnable = finePointerQuery.matches && !reducedMotionQuery.matches;
-      if (shouldEnable) {
-        activate();
-      } else {
-        deactivate();
-      }
-    };
-
-    syncState();
-
-    const handleMediaChange = () => syncState();
-
-    try {
-      finePointerQuery.addEventListener('change', handleMediaChange);
-      reducedMotionQuery.addEventListener('change', handleMediaChange);
-    } catch {
-      finePointerQuery.addListener?.(handleMediaChange);
-      reducedMotionQuery.addListener?.(handleMediaChange);
-    }
+    rafId = requestAnimationFrame(loop);
 
     return () => {
-      deactivate();
-      try {
-        finePointerQuery.removeEventListener('change', handleMediaChange);
-        reducedMotionQuery.removeEventListener('change', handleMediaChange);
-      } catch {
-        finePointerQuery.removeListener?.(handleMediaChange);
-        reducedMotionQuery.removeListener?.(handleMediaChange);
-      }
+      if (rafId) cancelAnimationFrame(rafId);
+      document.documentElement.classList.remove('custom-cursor-active');
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('mousemove', onPointerMove);
+      document.removeEventListener('mouseleave', onPointerLeave);
+      document.removeEventListener('mouseenter', onPointerEnter);
+      window.removeEventListener('blur', hideCursor);
+      window.removeEventListener('touchstart', onTouchStart);
     };
   }, []);
 

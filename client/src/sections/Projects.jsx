@@ -5,7 +5,8 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiMaximize2,
-  FiArrowRight
+  FiArrowRight,
+  FiArrowLeft
 } from 'react-icons/fi';
 import SectionTitle from '../components/SectionTitle';
 import Lightbox from '../components/Lightbox';
@@ -654,6 +655,14 @@ const Projects = () => {
               </div>
 
               <div className="lightbox-bottombar-actions">
+                <button
+                  type="button"
+                  className="btn btn-line-gold cursor-hover lightbox-bottom-back-btn"
+                  onClick={() => setActiveLightbox(null)}
+                  aria-label="Back to projects"
+                >
+                  <FiArrowLeft size={13} /> Back
+                </button>
                 {!isPlaceholderLink(activeLightbox.live) ? (
                   <a
                     href={activeLightbox.live}
