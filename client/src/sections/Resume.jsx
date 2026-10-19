@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FiFileText, FiDownload } from 'react-icons/fi';
 import SectionTitle from '../components/SectionTitle';
+import { API_ENDPOINTS } from '../services/api';
 import './Resume.css';
 
 const Resume = () => {
@@ -37,7 +38,7 @@ const Resume = () => {
             <p className="resume-card-sub">Best for sharing &amp; applying</p>
 
             <a
-              href="/Aryan_Chaturvedi_Resume.pdf"
+              href={API_ENDPOINTS.resumePdf}
               download="Aryan_Chaturvedi_Resume.pdf"
               className="btn btn-fill-g resume-download-btn cursor-hover"
               aria-label="Download PDF Resume"
@@ -62,7 +63,7 @@ const Resume = () => {
             <p className="resume-card-sub">Editable Word document</p>
 
             <a
-              href="/Aryan_Chaturvedi_Resume.docx"
+              href={API_ENDPOINTS.resumeDocx}
               download="Aryan_Chaturvedi_Resume.docx"
               className="btn btn-fill-gold resume-download-btn cursor-hover"
               aria-label="Download DOCX Resume"
